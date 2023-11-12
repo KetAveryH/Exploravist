@@ -8,7 +8,7 @@
 
 const char* ssid = "Claremont-ETC";
 const char* password = "Cl@remontI0T";
-const char* chatgpt_token = "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";
+const char* chatgpt_token = %OPENAI_API_KEY%;
 const char* chatgpt_Q = "\"Who are you\"";
 
 void setup() {
