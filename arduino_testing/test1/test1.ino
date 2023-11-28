@@ -194,6 +194,12 @@ void loop() {
   delay(60000);
 }
 
+// Check if photo capture was successful
+bool checkPhoto( fs::FS &fs ) {
+  File f_pic = fs.open( FILE_PHOTO );
+  unsigned int pic_sz = f_pic.size();
+  return ( pic_sz > 100 );
+}
 
 /// Capture Photo and return it as a Base64-encoded String
 String capturePhotoSaveSpiffs() {

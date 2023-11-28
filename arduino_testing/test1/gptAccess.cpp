@@ -1,31 +1,47 @@
-// GPT.cpp
-
+// gptAccess.cpp
+#include "gptAccess.h"
 #include <ArduinoJson.h>
 #include <HTTPClient.h>
 
-class GPT {
-
-
+class gptAccess {
+    // TODO:
+    // Consider asynchronous HTTPS requests
+    
     public:
-    String get_response(String gpt_prompt, String base64_image) {
+
+    gptAccess::gptAccess(const char* gpt_token) : chatgpt_token(gpt_token) {}
+
+    String gptAccess::getResponse(const String& gpt_prompt, const String& base64_image) {
         // TODO:
         // call Json_payload, feed out paylaod into gpt_request
         // parse output and return
         String payload;
         payload = JSON_Payload(gpt_prompt, base64_image);
-        payload = gpt_request(payload, chatgpt_token)
+        String response;
+        return gptRequest(payload, chatgpt_token);
+    }
+
+    String parseResponse(String& response) {
+        // To be implemented
+        return;
     }
 
     private:
-    const char* chatgpt_token = "";
 
-    // HELPER FUNCTION
-    String JSON_Payload(String gpt_prompt, String base64_image) {
+    const char* chatgpt_token = ""; // Need a better way to store gpt_token (be able to cycle through tokens securely)
+                                    // a configuration file would be good to start
+    
+    
+    // HELPER FUNCTIONS
+    
+    String jsonPayload(String gpt_prompt, String base64_image) {
+
     DynamicJsonDocument doc(50000); // Adjust the size to suit your needs
+    // TODO: Create a function that dynamically sets doc parameter based on image size.
 
     // Create properly formatted JSON
     JsonArray messagesArray = doc.createNestedArray("messages");
-    
+
     JsonObject messageObject = messagesArray.createNestedObject();
     messageObject["role"] = "user";
 
@@ -46,10 +62,10 @@ class GPT {
     String payload;
     serializeJson(doc, payload);
     
-    return payload
+    return payload;
     }
 
-    void gpt_request(String payload, const char* chatgpt_token) { // 
+    String gptRequest(const String& payload, const char* chatgpt_token) { // 
         // Does the API Communication 
         HTTPClient http;
         http.begin("https://api.openai.com/v1/chat/completions"); // Your API endpoint
@@ -68,6 +84,7 @@ class GPT {
         }
 
         http.end();
+        return response;
     }
 
     

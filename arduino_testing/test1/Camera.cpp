@@ -1,6 +1,7 @@
 // Camera.cpp
 #include "Camera.h"
-#include "esp_camera.h"
+
+//#include <SPIFFS.h>  might be necessary
 
 class Camera {
 
@@ -12,7 +13,7 @@ class Camera {
 
 public:
 
-    /// @brief Initializes camera pins and resolution
+    /// @brief Initializes camera pins and resolution among other knobs
     void Camera::initializeCamera() {
         // OV2640 camera module
         camera_config_t config;
