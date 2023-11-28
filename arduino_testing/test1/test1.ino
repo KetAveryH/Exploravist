@@ -79,7 +79,7 @@ void setup() {
   }
 
   // Turn-off the 'brownout detector'
-  WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0);
+  WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0); // might be Arduino
 
   // OV2640 camera module
   camera_config_t config;
@@ -142,6 +142,7 @@ void loop() {
     // Prepare JSON payload
     DynamicJsonDocument doc(50000); // Adjust the size to suit your needs
     JsonArray messagesArray = doc.createNestedArray("messages");
+    
     JsonObject messageObject = messagesArray.createNestedObject();
     messageObject["role"] = "user";
 
@@ -162,9 +163,13 @@ void loop() {
     String payload;
     serializeJson(doc, payload);
     // Debug: Print the payload
+
+
     Serial.println("Payload being sent:");
     Serial.println(payload);
 
+
+    // Does the API Communication 
     HTTPClient http;
     http.begin("https://api.openai.com/v1/chat/completions"); // Your API endpoint
     http.addHeader("Content-Type", "application/json");
@@ -183,16 +188,12 @@ void loop() {
 
     http.end();
   }
+
+
   Serial.println("Wait 60s before next round...");
   delay(60000);
 }
 
-// Check if photo capture was successful
-bool checkPhoto( fs::FS &fs ) {
-  File f_pic = fs.open( FILE_PHOTO );
-  unsigned int pic_sz = f_pic.size();
-  return ( pic_sz > 100 );
-}
 
 /// Capture Photo and return it as a Base64-encoded String
 String capturePhotoSaveSpiffs() {
