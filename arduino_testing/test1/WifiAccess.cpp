@@ -24,7 +24,7 @@ public:
         WiFi.begin(ssid, password);
         Serial.print("Connecting to ");
         Serial.println(ssid);
-        while (WiFi.status() != WL_CONNECTED) {
+        while (WiFi.status() != WL_CONNECTED) {  
             delay(1000);
             Serial.print(".");
         }

@@ -6,9 +6,12 @@
 
 class esp32 {
 private:
-
+     
+    
     ESP32() {
         // Initialize ESP32 components
+        WifiAccess wifi = WifiAccess(ssid);
+        Camera 
     }
 
 

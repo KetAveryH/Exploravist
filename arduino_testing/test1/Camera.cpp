@@ -13,6 +13,8 @@ class Camera {
 
 public:
 
+    Camera::Camera() {}
+
     /// @brief Initializes camera pins and resolution among other knobs
     void Camera::initializeCamera() {
         // OV2640 camera module

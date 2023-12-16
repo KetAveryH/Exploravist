@@ -1,10 +1,12 @@
 #include <driver/i2s.h>
 #include <SPIFFS.h>
 
-#define I2S_WS 42
-#define I2S_SD 41
-#define I2S_SCK 1
-#define I2S_PORT I2S_NUM_0
+// Pins for ESP32 WROVER 
+#define I2S_WS 25
+#define I2S_SD 33
+#define I2S_SCK 32
+
+#define I2S_PORT I2S_NUM_0       // Interface Selection (I2S Supports mutliple interfaces)
 #define I2S_SAMPLE_RATE   (16000)
 #define I2S_SAMPLE_BITS   (16)
 #define I2S_READ_LEN      (16 * 1024)
@@ -12,7 +14,6 @@
 #define I2S_CHANNEL_NUM   (1)
 #define FLASH_RECORD_SIZE (I2S_CHANNEL_NUM * I2S_SAMPLE_RATE * I2S_SAMPLE_BITS / 8 * RECORD_TIME)
 
-// In order to access file, use Examples/Webserver/FSBrowser and type in the ip/recording.wav
 File file;
 const char filename[] = "/recording.wav";
 const int headerSize = 44;
@@ -22,7 +23,7 @@ void setup() {
   Serial.begin(115200);
   SPIFFSInit();
   i2sInit();
-  xTaskCreate(i2s_adc, "i2s_adc", 1024 * 4, NULL, 1, NULL);
+  xTaskCreate(i2s_adc, "i2s_adc", 1024 * 2, NULL, 1, NULL);
 }
 
 void loop() {
@@ -54,7 +55,7 @@ void i2sInit(){
     .mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_RX),
     .sample_rate = I2S_SAMPLE_RATE,
     .bits_per_sample = i2s_bits_per_sample_t(I2S_SAMPLE_BITS),
-    .channel_format = I2S_CHANNEL_FMT_ONLY_LEFT,
+    .channel_format = I2S_CHANNEL_FMT_ONLY_LEFT, // Maybe change to right 
     .communication_format = i2s_comm_format_t(I2S_COMM_FORMAT_I2S | I2S_COMM_FORMAT_I2S_MSB),
     .intr_alloc_flags = 0,
     .dma_buf_count = 64,
