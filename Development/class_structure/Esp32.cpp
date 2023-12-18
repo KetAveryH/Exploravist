@@ -5,11 +5,10 @@
 #include "gptAccess.h"
 
 
-public:
-    Esp32() {}
 
-private:
+Esp32::Esp32() {
+    ssid = "";
+    password = "";
+    systemVolume = 0.015;
+}
 
-    const char* ssid = "";
-    const char* password = "";
-    float systemVolume = 0.015;
