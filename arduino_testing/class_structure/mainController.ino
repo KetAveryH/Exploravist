@@ -25,6 +25,7 @@ void setup() {
     
     // initialize Camera Object the #define above will take care of setting pins on initialization
 
+    // "SPIFFS MEMORY" usage, 8 Mb FRAM. 
     // Set up SPIFFS in mainController (idk what to call this class yet)
 
     // Turn-off the 'brownout detector'
@@ -36,7 +37,12 @@ void loop() {
     WifiAccess.isConnected();
 
     // We will need to figure out the control system to determine WHEN we run the following loop
-    
+    // 
+    // embedded systems
+    // interuptions prompted by user inputs
+    // 
+    // Buffer user inputs
+    // 
 
     String image_base64 = Camera.capture_base64();
 
