@@ -4,10 +4,12 @@
 #include "WifiAccess.h"
 #include "gptAccess.h"
 
-class Esp32 {
+
+public:
+    Esp32() {}
+
 private:
-     
-    
-    esp32() {
-    }
-};
+
+    const char* ssid = "";
+    const char* password = "";
+    float systemVolume = 0.015;

@@ -4,7 +4,6 @@
 // TO-DO 
 // Use WifiManager library for everything WIFI related.
 
-class WifiAccess {
 public:
     // On the initialization of a WifiAccess object, we will need to have an ssid and password
     
@@ -52,4 +51,4 @@ private:
     const char* ssid;
     const char* password;
     
-}
+

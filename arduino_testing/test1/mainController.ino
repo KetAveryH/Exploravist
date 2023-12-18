@@ -11,15 +11,18 @@ const String gpt_prompt = "Can you please describe what you see in front of you 
 const char* ssid = "";
 const char* password = "";
 
-WifiAccess wifiAccess(ssid, password); // Initialize WifiAccess object
-Esp32 
+WifiAccess wifiModule(ssid, password); // Initialize WifiAccess object named "wifi"
+Camera camera();
+// I want to define the ESP32 object in order to store password and setting information
+// Esp32 esp32();
 
 void setup() {
     // Serial port for debugging purposes
     Serial.begin(115200); 
 
-    WifiAccess.connect();
-
+    wifiModule.connect();
+    camera.initializeCamera();
+    
     // initialize Camera Object the #define above will take care of setting pins on initialization
 
     // Set up SPIFFS in mainController (idk what to call this class yet)
@@ -35,7 +38,7 @@ void loop() {
     // We will need to figure out the control system to determine WHEN we run the following loop
     
 
-    String image_base64 = Camera.takeImageBase64();
+    String image_base64 = Camera.capture_base64();
 
     if(img_base64.length() == 0) {
       Serial.println("Failed to capture or encode photo.");

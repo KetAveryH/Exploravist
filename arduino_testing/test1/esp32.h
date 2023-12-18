@@ -12,9 +12,9 @@ class  Esp32 {
 public:
     Esp32();
 private:
-    const char* ssid = "";
-    const char* password = "";
-    float systemVolume = 0.015;
+    const char* ssid;
+    const char* password;
+    float systemVolume;
 }
 
 #endif // ESP32_H
