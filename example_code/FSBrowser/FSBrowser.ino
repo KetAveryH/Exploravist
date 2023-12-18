@@ -27,6 +27,8 @@
 #include <WebServer.h>
 #include <ESPmDNS.h>
 
+// KET NOTES: This is what allows us to download files from the ESP32 via a webserver that the ESP32 hosts
+
 #define FILESYSTEM SPIFFS
 // You only need to format the filesystem once
 #define FORMAT_FILESYSTEM false

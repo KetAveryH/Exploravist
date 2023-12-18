@@ -25,6 +25,8 @@
 //#define CAMERA_MODEL_ESP32S2_CAM_BOARD
 //#define CAMERA_MODEL_ESP32S3_CAM_LCD
 
+// NOTES: Thiss is what it seems like, hosts a webserver at device IP on local network, allows to stream video
+
 #include "camera_pins.h"
 
 // ===========================
