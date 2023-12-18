@@ -6,7 +6,7 @@
 class WifiAccess {
 public:
     WifiAccess(const char* ssid, const char* password); // Constructor
-    void initializeWifi(); // Method to initialize WiFi
+    void connect(); // Method to initialize WiFi
     bool isConnected(); // Method to check if WiFi is connected
 
 private:

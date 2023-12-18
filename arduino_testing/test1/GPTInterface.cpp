@@ -3,15 +3,15 @@
 #include <ArduinoJson.h>
 #include <HTTPClient.h>
 
-class gptAccess {
+class GPTInterface {
     // TODO:
     // Consider asynchronous HTTPS requests
     
     public:
 
-    gptAccess::gptAccess(const char* gpt_token) : chatgpt_token(gpt_token) {}
+    GPTInterface::GPTInterface(const char* gpt_token) : chatgpt_token(gpt_token) {}
 
-    String gptAccess::getResponse(const String& gpt_prompt, const String& base64_image) {
+    String GPTInterface::getResponse(const String& gpt_prompt, const String& base64_image) {
         // TODO:
         // call Json_payload, feed out paylaod into gpt_request
         // parse output and return
@@ -26,15 +26,20 @@ class gptAccess {
         return;
     }
 
+    String getParsedResponse(const String& gpt_prompt, const String& base64_image) {
+        
+    }
+
     private:
 
-    const char* chatgpt_token = ""; // Need a better way to store gpt_token (be able to cycle through tokens securely)
+    const char* chatgpt_token = ""; // TODO: 
+                                    // Need a better way to store gpt_token (be able to cycle through tokens securely)
                                     // a configuration file would be good to start
     
     
     // HELPER FUNCTIONS
     
-    String jsonPayload(String gpt_prompt, String base64_image) {
+    String jsonPayload(String& gpt_prompt, String& base64_image) {
 
     DynamicJsonDocument doc(50000); // Adjust the size to suit your needs
     // TODO: Create a function that dynamically sets doc parameter based on image size.

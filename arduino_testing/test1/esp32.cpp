@@ -1,36 +1,13 @@
-// esp32.cpp
-#include "esp32.h"
+// Esp32.cpp
+#include "Esp32.h"
 #include "Camera.h"
 #include "WifiAccess.h"
 #include "gptAccess.h"
 
-class esp32 {
+class Esp32 {
 private:
      
     
-    ESP32() {
-        // Initialize ESP32 components
-        WifiAccess wifi = WifiAccess(ssid);
-        Camera 
+    esp32() {
     }
-
-
-    /// WIFI THINGS VVV
-
-    
-
-    /// MICROPHONE THINGS VVV
-
-
-    /// SPEAKER THINGS VVV
-
-
-    //// CAMERA THINGS VVV
-
-
-
-
-    /// GPT API THINGS VVV
-    
-    // Other ESP32-specific methods...
 };

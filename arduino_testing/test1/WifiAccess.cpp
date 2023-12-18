@@ -8,13 +8,12 @@ class WifiAccess {
 public:
     // On the initialization of a WifiAccess object, we will need to have an ssid and password
     
-    WifiAccess(const char* ssid, cost char* password)
+    // Should I be able to construct a WifiAccess object?? I don't know... TODO
+    WifiAccess(const char* ssid, const char* password)
         : ssid(ssid), password(password) {}
         
 
-    void WifiAccess::initializeWifi() {
-        // Serial port for debugging purposes
-        Serial.begin(115200);  
+    void connect() {
 
         WiFi.mode(WIFI_STA);
         WiFi.disconnect();
@@ -39,7 +38,7 @@ public:
         }
     }
 
-    bool WifiAccess::isConnected() {
+    bool isConnected() {
         if(WiFi.status() != WL_CONNECTED) {
             Serial.println("WiFi not connected.");
             return true;

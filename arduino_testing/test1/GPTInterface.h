@@ -3,13 +3,16 @@
 
 #include <Arduino.h>
 
-class gptAccess {
+class GPTInterface {
 public:
-    gptAccess(const char* gpt_token); // Constructor
+    GPTInterface(const char* gpt_token); // Constructor
     String getResponse(const String& gpt_prompt, const String& base64_image); // Method to get response from GPT
     String parseResponse(String& response); // Method to parse the response
+    String getParsedResponse(const String& gpt_prompt, const String& base64_image);
 
 private:
+    // TODO: not sure how to securely set chatgpt_token without 
+
     const char* chatgpt_token; // Private member variable for storing the GPT token
 
     // Private helper methods
