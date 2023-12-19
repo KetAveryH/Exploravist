@@ -19,7 +19,7 @@ Camera camera();
 void setup() {
     // Serial port for debugging purposes
     Serial.begin(115200); 
-
+    
     wifiModule.connect();
     camera.initializeCamera();
     
@@ -42,6 +42,8 @@ void loop() {
     // interuptions prompted by user inputs
     // 
     // Buffer user inputs
+    // Run parallel process that performs entire loop, the process is interruptable
+    // main Controller will only check for inputs each clock cycle.
     // 
 
     String image_base64 = Camera.capture_base64();
