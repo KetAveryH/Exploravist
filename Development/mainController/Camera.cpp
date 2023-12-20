@@ -15,7 +15,7 @@ Camera::Camera() {
 }
 
 /// Initializes camera pins and resolution among other knobs
-void Camera::initializeCamera() {
+void initializeCamera() {
     // OV2640 camera module
     camera_config_t config;
     config.ledc_channel = LEDC_CHANNEL_0;
@@ -53,7 +53,7 @@ void Camera::initializeCamera() {
 
 
 /// Capture Photo and return it as a Base64-encoded String
-String Camera::capture_base64() {
+String capture_base64() {
 camera_fb_t *fb = esp_camera_fb_get(); // Take a photo with the camera
 if (!fb) {
     Serial.println("Camera capture failed");

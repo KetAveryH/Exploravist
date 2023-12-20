@@ -1,5 +1,5 @@
-#ifndef GPT_ACCESS_H
-#define GPT_ACCESS_H
+#ifndef GPT_INTERFACE_H
+#define GPT_INTERFACE_H
 
 #include <Arduino.h>
 
@@ -13,11 +13,11 @@ public:
 private:
     // TODO: not sure how to securely set chatgpt_token without 
 
-    const char* chatgpt_token; // Private member variable for storing the GPT token
+    const char* gpt_token; // Private member variable for storing the GPT token
 
     // Private helper methods
-    String jsonPayload(const String& gpt_prompt, const String& base64_image);
+    String JSON_Payload(const String& gpt_prompt, const String& base64_image);
     String gptRequest(const String& payload, const char* chatgpt_token);
 };
 
-#endif // GPT_ACCESS_H
+#endif // GPT_INTERFACE_H

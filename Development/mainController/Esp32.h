@@ -9,14 +9,14 @@
 
 
 class  Esp32 {
-public:
-    Esp32();
+    public:
+        Esp32();
 
-    // Implement getter and setter methods for the private variables below/
-private:
-    const char* ssid;
-    const char* password;
-    float systemVolume;
-}
+        // Implement getter and setter methods for the private variables below/
+    private:
+        const char* ssid;
+        const char* password;
+        float systemVolume;
+    };
 
 #endif // ESP32_H
