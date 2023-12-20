@@ -10,8 +10,8 @@ public:
     bool isConnected(); // Method to check if WiFi is connected
 
 private:
-    const char* ssid; // Private member variable for storing the SSID
-    const char* password; // Private member variable for storing the WiFi password
+    const char* _ssid; // Private member variable for storing the SSID
+    const char* _password; // Private member variable for storing the WiFi password
 };
 
 #endif // WIFI_ACCESS_H

@@ -13,11 +13,11 @@ public:
 private:
     // TODO: not sure how to securely set chatgpt_token without 
 
-    const char* gpt_token; // Private member variable for storing the GPT token
+    const char* _gpt_token; // Private member variable for storing the GPT token
 
     // Private helper methods
     String JSON_Payload(const String& gpt_prompt, const String& base64_image);
-    String gptRequest(const String& payload, const char* chatgpt_token);
+    String gptRequest(const String& payload, const char* gpt_token);
 };
 
 #endif // GPT_INTERFACE_H

@@ -6,15 +6,15 @@
 
 
 
-String ssid;
-String password;
+String _ssid;
+String _password;
 
 
 // On the initialization of a WifiAccess object, we will need to have an ssid and password
 
 // Should I be able to construct a WifiAccess object?? I don't know... TODO
 WifiAccess::WifiAccess(const char* ssid, const char* password)
-    : ssid(ssid), password(password) {}
+    : _ssid(ssid), _password(password) {}
     
 
 void connect() {
@@ -24,9 +24,9 @@ void connect() {
     while(!Serial); 
 
     // wait for WiFi connection
-    WiFi.begin(ssid, password);
+    WiFi.begin(_ssid, _password);
     Serial.print("Connecting to ");
-    Serial.println(ssid);
+    Serial.println(_ssid);
     while (WiFi.status() != WL_CONNECTED) {  
         delay(1000);
         Serial.print(".");

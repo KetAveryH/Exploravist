@@ -7,12 +7,12 @@
 // TODO:
 // Consider asynchronous HTTPS requests
 
-const char* gpt_token = ""; // TODO: 
+const char* _gpt_token = ""; // TODO: 
                                 // Need a better way to store gpt_token (be able to cycle through tokens securely)
                                 // a configuration file would be good to start
 
 
-GPTInterface::GPTInterface(const char* gpt_token) : gpt_token(gpt_token) {}
+GPTInterface::GPTInterface(const char* gpt_token) : _gpt_token(gpt_token) {}
 
 String JSON_Payload(const String& gpt_prompt, const String& base64_image) {
 
@@ -76,8 +76,7 @@ String getResponse(const String& gpt_prompt, const String& base64_image) {
     // parse output and return
     String payload;
     payload = JSON_Payload(gpt_prompt, base64_image);
-    String response;
-    return gptRequest(payload, gpt_token);
+    return gptRequest(payload, _gpt_token);
 }
 
 String parseResponse(String& response) {
