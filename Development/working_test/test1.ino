@@ -18,8 +18,8 @@
 #include <string.h>
 
 boolean takeNewPhoto = true;
-const char* ssid = "Claremont-ETC";
-const char* password = "Cl@remontI0T";
+const char* ssid = "";
+const char* password = "";
 const char* chatgpt_token = "";%OPENAI_API_KEY%
 const char* chatgpt_Q = "\"Can you read this text please?\"";
 

@@ -15,7 +15,7 @@ Camera::Camera() {
 }
 
 /// Initializes camera pins and resolution among other knobs
-void initializeCamera() {
+void Camera::initializeCamera() {
     // OV2640 camera module
     camera_config_t config;
     config.ledc_channel = LEDC_CHANNEL_0;
@@ -53,19 +53,19 @@ void initializeCamera() {
 
 
 /// Capture Photo and return it as a Base64-encoded String
-String capture_base64() {
-camera_fb_t *fb = esp_camera_fb_get(); // Take a photo with the camera
-if (!fb) {
-    Serial.println("Camera capture failed");
-    return ""; // Return an empty string to indicate failure
-}
+String Camera::capture_base64() {
+  camera_fb_t *fb = esp_camera_fb_get(); // Take a photo with the camera
+  if (!fb) {
+      Serial.println("Camera capture failed");
+      return ""; // Return an empty string to indicate failure
+  }
 
-// Encode the image in base64
-String base64Image = base64::encode(fb->buf, fb->len);
-if (base64Image.length() == 0) {
-    Serial.println("Base64 encoding failed");
-    esp_camera_fb_return(fb);
-    return ""; // Return an empty string to indicate failure
+  // Encode the image in base64
+  String base64Image = base64::encode(fb->buf, fb->len);
+  if (base64Image.length() == 0) {
+      Serial.println("Base64 encoding failed");
+      esp_camera_fb_return(fb);
+      return ""; // Return an empty string to indicate failure
 }
 
 Serial.print("Base64 Image Success! Length: ");

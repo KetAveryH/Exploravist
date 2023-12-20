@@ -14,7 +14,7 @@ const char* _gpt_token = ""; // TODO:
 
 GPTInterface::GPTInterface(const char* gpt_token) : _gpt_token(gpt_token) {}
 
-String JSON_Payload(const String& gpt_prompt, const String& base64_image) {
+String GPTInterface::JSON_Payload(const String& gpt_prompt, const String& base64_image) {
 
     DynamicJsonDocument doc(50000); // Adjust the size to suit your needs
     // TODO: Create a function that dynamically sets doc parameter based on image size.
@@ -45,7 +45,7 @@ String JSON_Payload(const String& gpt_prompt, const String& base64_image) {
     return payload;
 }
 
-String gptRequest(const String& payload, const char* gpt_token) { // 
+String GPTInterface::gptRequest(const String& payload, const char* gpt_token) { // 
       // Does the API Communication 
       HTTPClient http;
       http.begin("https://api.openai.com/v1/chat/completions"); // Your API endpoint
@@ -70,7 +70,7 @@ String gptRequest(const String& payload, const char* gpt_token) { //
     return response;
 }
 
-String getResponse(const String& gpt_prompt, const String& base64_image) {
+String GPTInterface::getResponse(const String& gpt_prompt, const String& base64_image) {
     // TODO:
     // call Json_payload, feed out paylaod into gpt_request
     // parse output and return

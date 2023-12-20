@@ -17,7 +17,7 @@ WifiAccess::WifiAccess(const char* ssid, const char* password)
     : _ssid(ssid), _password(password) {}
     
 
-void connect() {
+void WifiAccess::connect() {
 
     WiFi.mode(WIFI_STA);
     WiFi.disconnect();
@@ -36,7 +36,7 @@ void connect() {
     Serial.println(WiFi.localIP());
 }
 
-bool isConnected() {
+bool WifiAccess::isConnected() {
     if(WiFi.status() != WL_CONNECTED) {
         Serial.println("WiFi not connected.");
         return true;
