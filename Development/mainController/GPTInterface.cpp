@@ -14,7 +14,7 @@ const char* _gpt_token = ""; // TODO:
 
 GPTInterface::GPTInterface(const char* gpt_token) : _gpt_token(gpt_token) {}
 
-String GPTInterface::JSON_Payload(const String& gpt_prompt, const String& base64_image) {
+String GPTInterface::JSON_PayloadImg(const String& gpt_prompt, const String& base64_image) {
 
     DynamicJsonDocument doc(50000); // Adjust the size to suit your needs
     // TODO: Create a function that dynamically sets doc parameter based on image size.
@@ -45,7 +45,54 @@ String GPTInterface::JSON_Payload(const String& gpt_prompt, const String& base64
     return payload;
 }
 
-String GPTInterface::gptRequest(const String& payload, const char* gpt_token) { // 
+String GPTInterface::JSON_Text_Speech(const String& gpt_response) {
+    DynamicJsonDocument doc(50000); // Adjust the size to suit your needs
+    // TODO: Create a function that dynamically sets doc parameter based on image size.
+
+    // Create properly formatted JSON
+
+    doc["input"] = "testing GPT text to speech";
+    doc["voice"] = "alloy";
+
+
+    doc["model"] = "tts-1";
+    doc["max_tokens"] = 300;
+
+    String payload;
+    serializeJson(doc, payload);
+
+    return payload;
+    
+}
+
+String GPTInterface::gptTextSpeech(const String& payload, const char* gpt_token) {
+     // Does the API Communication 
+      HTTPClient http;
+      http.begin("https://api.openai.com/v1/audio/speech"); // Your API endpoint
+      http.addHeader("Authorization", "Bearer " + String(gpt_token)); // Your API key
+      http.addHeader("Content-Type", "application/json");
+      
+
+      int httpResponseCode = http.POST(payload);
+
+      String response = "Error on response";
+
+      if (httpResponseCode > 0) {
+      response = http.getString();
+      Serial.println("API Response:");
+      } else {
+      Serial.print("Error on sending POST: ");
+      Serial.println(http.errorToString(httpResponseCode));
+      }
+
+      http.end();
+      
+    return response;
+}
+
+
+
+String GPTInterface::gptImgRequest(const String& payload, const char* gpt_token) { // 
       // Does the API Communication 
       HTTPClient http;
       http.begin("https://api.openai.com/v1/chat/completions"); // Your API endpoint
@@ -70,14 +117,25 @@ String GPTInterface::gptRequest(const String& payload, const char* gpt_token) { 
     return response;
 }
 
-String GPTInterface::getResponse(const String& gpt_prompt, const String& base64_image) {
+String GPTInterface::getImgResponse(const String& gpt_prompt, const String& base64_image) {
     // TODO:
     // call Json_payload, feed out paylaod into gpt_request
     // parse output and return
     String payload;
-    payload = JSON_Payload(gpt_prompt, base64_image);
-    return gptRequest(payload, _gpt_token);
+    payload = JSON_PayloadImg(gpt_prompt, base64_image);
+    return gptImgRequest(payload, _gpt_token);
 }
+
+String GPTInterface::getSpeechText(const String& gpt_response) {
+    // TODO:
+    // call Json_payload, feed out paylaod into gpt_request
+    // parse output and return
+    String payload;
+    payload = JSON_Text_Speech(gpt_response);
+    return gptTextSpeech(payload, _gpt_token);
+}
+
+
 
 String parseResponse(String& response) {
     // To be implemented

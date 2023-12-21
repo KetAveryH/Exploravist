@@ -70,8 +70,10 @@ void loop() {
     }
     
     // String gpt_response = GPTInterface.getResponse(gpt_prompt, image_base64);  // We want to change this to getParsed response to only return our package
-    String gpt_response = gptInterface.getResponse(gpt_prompt, image_base64);
+    String gpt_response = gptInterface.getImgResponse(gpt_prompt, image_base64);
     Serial.println(gpt_response);
+    String gpt_audio = gptInterface.getSpeechText(gpt_response);
+    Serial.println(gpt_audio);
     // Not sure yet how to getAudio into a file, must look into SPIFFS reading
 
     Serial.println("Wait 60s before next round...");
