@@ -14,7 +14,7 @@
 #include "AudioCodecs/CodecMP3Helix.h"
 
 
-URLStream url("ssid","password");  // Put SSID and PASS here
+URLStream url("Linksys3000","jass loves lynxlee");  // Put SSID and PASS here
 I2SStream i2s; // final output of decoded stream
 EncodedAudioStream dec(&i2s, new MP3DecoderHelix()); // Decoding stream
 StreamCopy copier(dec, url); // copy url to decoder
