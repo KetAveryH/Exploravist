@@ -79,29 +79,6 @@ void writeFile(fs::FS &fs, const char * path, const char * message){
     }
 }
 
-void writeAudioFile(fs::FS &fs, const char * path, File &sourceFile){
-    Serial.printf("Writing file: %s\n", path);
-
-    File file = fs.open(path, FILE_WRITE);
-    if(!file){
-        Serial.println("Failed to open file for writing");
-        return;
-    }
-
-    // Buffer for data transfer
-    uint8_t buffer[512]; // Adjust the buffer size based on available memory
-    size_t bytesRead;
-
-    while ((bytesRead = sourceFile.read(buffer, sizeof(buffer))) > 0) {
-        file.write(buffer, bytesRead);
-    }
-
-    file.close();
-    sourceFile.close(); // Make sure to close the source file as well
-
-    Serial.println("File written");
-}
-
 void appendFile(fs::FS &fs, const char * path, const char * message){
     Serial.printf("Appending to file: %s\n", path);
 

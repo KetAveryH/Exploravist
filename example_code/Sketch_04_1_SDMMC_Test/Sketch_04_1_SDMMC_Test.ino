@@ -6,13 +6,23 @@
 **********************************************************************/
 #include "sd_read_write.h"
 #include "SD_MMC.h"
+#include <SPIFFS.h>
 
 #define SD_MMC_CMD 38 //Please do not modify it.
 #define SD_MMC_CLK 39 //Please do not modify it. 
 #define SD_MMC_D0  40 //Please do not modify it.
 
+#define FORMAT_SPIFFS_IF_FAILED true
+
 void setup(){
     Serial.begin(115200);
+
+    // Ensure Spiffs Mmounts
+    if(!SPIFFS.begin(FORMAT_SPIFFS_IF_FAILED)){
+        Serial.println("SPIFFS Mount Failed");
+        return;
+    }
+
     SD_MMC.setPins(SD_MMC_CLK, SD_MMC_CMD, SD_MMC_D0);
     if (!SD_MMC.begin("/sdcard", true, true, SDMMC_FREQ_DEFAULT, 5)) {
       Serial.println("Card Mount Failed");
@@ -57,6 +67,14 @@ void setup(){
     // readFile(SD_MMC, "/foo.txt");
 
     // testFileIO(SD_MMC, "/test.txt");
+    // File file1 = SD_MMC.open("/audio.mp3", FILE_READ);
+    // if(!file1){
+    //             Serial.println("Failed to open file for writing");
+    //             return "";
+    //         }
+
+    // writeFile(SPIFFS, "/audio.mp3", file1);
+    
     
     Serial.printf("Total space: %lluMB\r\n", SD_MMC.totalBytes() / (1024 * 1024));
     Serial.printf("Used space: %lluMB\r\n", SD_MMC.usedBytes() / (1024 * 1024));

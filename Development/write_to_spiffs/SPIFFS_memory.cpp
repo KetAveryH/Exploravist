@@ -1,10 +1,10 @@
-#include "FS.h"
+// SPIFFS_memory.cpp
 #include "SPIFFS.h"
+#include "SPIFFS_memory.h"
 
-/* You only need to format SPIFFS the first time you run a
-   test or else use the SPIFFS plugin to create a partition
-   https://github.com/me-no-dev/arduino-esp32fs-plugin */
 #define FORMAT_SPIFFS_IF_FAILED true
+
+// Functions from Arduino IDE: Examples > SPIFFS > SPIIFTS_TEST
 
 void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
     Serial.printf("Listing directory: %s\r\n", dirname);
@@ -60,7 +60,6 @@ void writeFile(fs::FS &fs, const char * path, const char * message){
     if(!file){
         Serial.println("- failed to open file for writing");
         return;
-
     }
     if(file.print(message)){
         Serial.println("- file written");
@@ -120,8 +119,8 @@ void testFileIO(fs::FS &fs, const char * path){
     uint32_t start = millis();
     for(i=0; i<2048; i++){
         if ((i & 0x001F) == 0x001F){
-        }
           Serial.print(".");
+        }
         file.write(buf, 512);
     }
     Serial.println("");
@@ -158,30 +157,28 @@ void testFileIO(fs::FS &fs, const char * path){
     }
 }
 
-void setup(){
-    Serial.begin(115200);
-    if(!SPIFFS.begin(FORMAT_SPIFFS_IF_FAILED)){
-        Serial.println("SPIFFS Mount Failed");
-        return;
-    }
-    listDir(SPIFFS, "/", 0);
-    // writeFile(SPIFFS, "/file_example_MP3_700KB.mp3", "hi");
-    // deleteFile(SPIFFS, "/file_example_MP3_700KB.mp3");
-    // deleteFile(SPIFFS, "/audio1.mp3");
-    // listDir(SPIFFS, "/", 0);
-}
+// For Setup Include the following
+//     if(!SPIFFS.begin(FORMAT_SPIFFS_IF_FAILED)){
+//         Serial.println("SPIFFS Mount Failed");
+//         return;
+//     }
 
-    // listDir(SPIFFS, "/", 0);
-    // writeFile(SPIFFS, "/hello.mp3", "Hello ");
-    // appendFile(SPIFFS, "/hello.mp3", "World!\r\n");
-    // readFile(SPIFFS, "/hello.mp3");
-    // renameFile(SPIFFS, "/hello.mp3", "/foo.txt");
-    // readFile(SPIFFS, "/foo.txt");
-    // deleteFile(SPIFFS, "/foo.txt");
-    // testFileIO(SPIFFS, "/test.txt");
-    // deleteFile(SPIFFS, "/test.txt");
-    // Serial.println( "Test complete" );
-
-void loop(){
-
-}
+// Example Usage:
+// void setup(){
+//     Serial.begin(115200);
+//     if(!SPIFFS.begin(FORMAT_SPIFFS_IF_FAILED)){
+//         Serial.println("SPIFFS Mount Failed");
+//         return;
+//     }
+    
+//     listDir(SPIFFS, "/", 0);
+//     writeFile(SPIFFS, "/hello.txt", "Hello ");
+//     appendFile(SPIFFS, "/hello.txt", "World!\r\n");
+//     readFile(SPIFFS, "/hello.txt");
+//     renameFile(SPIFFS, "/hello.txt", "/foo.txt");
+//     readFile(SPIFFS, "/foo.txt");
+//     deleteFile(SPIFFS, "/foo.txt");
+//     testFileIO(SPIFFS, "/test.txt");
+//     deleteFile(SPIFFS, "/test.txt");
+//     Serial.println( "Test complete" );
+// }

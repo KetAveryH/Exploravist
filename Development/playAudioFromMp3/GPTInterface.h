@@ -2,22 +2,19 @@
 #define GPT_INTERFACE_H
 
 #include <Arduino.h>
-#include "SD_MMC.h"
-#include <SPIFFS.h>
-#include <FS.h>
-#include <ArduinoJson.h>
+
 
 
 class GPTInterface {
 public:
     GPTInterface(const char* gpt_token); // Constructor
     String getImgResponse(const String& gpt_prompt, const String& base64_image); // Method to get response from GPT
-    // String parseResponse(String& response); // Method to parse the response
-    // String getParsedResponse(const String& gpt_prompt, const String& base64_image);
+    String parseResponse(String& response); // Method to parse the response
+    String getParsedResponse(const String& gpt_prompt, const String& base64_image);
 
     
     
-    void GPT_Text_Speech_To_File(const String& gpt_response);
+    String getTextSpeech(const String& gpt_response);
 
 
 private:
@@ -27,8 +24,7 @@ private:
 
     // Private helper methods
     String JSON_Text_Speech(const String& gpt_prompt);
-    String extractTextResponse(DynamicJsonDocument& doc);
-    // String gptTextSpeech(const String& payload, const char* gpt_token);
+    String gptTextSpeech(const String& payload, const char* gpt_token);
 
     String JSON_PayloadImg(const String& gpt_prompt, const String& base64_image);
     String gptImgRequest(const String& payload, const char* gpt_token);
