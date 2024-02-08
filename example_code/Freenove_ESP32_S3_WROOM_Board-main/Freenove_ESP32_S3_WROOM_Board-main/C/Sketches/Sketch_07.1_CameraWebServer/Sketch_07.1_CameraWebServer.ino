@@ -32,8 +32,8 @@
 // ===========================
 // Enter your WiFi credentials
 // ===========================
-const char* ssid     = "Linksys EA 8500_5GHz";
-const char* password = "walfy2012";
+const char* ssid     = "Claremont-ETC";
+const char* password = "Cl@remontI0T";
 
 void startCameraServer();
 

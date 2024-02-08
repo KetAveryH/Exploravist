@@ -58,7 +58,7 @@ String GPTInterface::JSON_PayloadImg(const String& gpt_prompt, const String& bas
     imageUrlObject["url"] = "data:image/jpeg;base64," + base64_image;
 
     doc["model"] = "gpt-4-vision-preview";
-    doc["max_tokens"] = 300;
+    doc["max_tokens"] = 50;
 
     String payload;
     serializeJson(doc, payload);

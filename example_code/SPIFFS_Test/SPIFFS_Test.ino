@@ -167,7 +167,7 @@ void setup(){
     listDir(SPIFFS, "/", 0);
     // writeFile(SPIFFS, "/file_example_MP3_700KB.mp3", "hi");
     // deleteFile(SPIFFS, "/file_example_MP3_700KB.mp3");
-    // deleteFile(SPIFFS, "/audio1.mp3");
+    // deleteFile(SPIFFS, "/audio.mp3");
     // listDir(SPIFFS, "/", 0);
 }
 

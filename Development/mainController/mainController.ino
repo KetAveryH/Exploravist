@@ -22,16 +22,16 @@
 #define FORMAT_SPIFFS_IF_FAILED true
 
 
-const String gpt_prompt = "Can you please describe what you see in front of you as if you were describing it to a blind individual? Please make your response as concise as possible.";
-const char* ssid = "";
-const char* password = "";
+const String gpt_prompt = "Can you please describe what you see in front of you as if you were describing it to a blind individual? Please make your response as concise as possible. Do not describe the lighting of the image. do not mention low image quality. Do not mention color. Focus on objects in the scene.";
+const char* ssid = "Claremont-ETC";
+const char* password = "Cl@remontI0T";
 const char* gpt_token = "";
 
 WifiAccess wifiAccess(ssid, password); // Initialize WifiAccess object named "wifi"
 GPTInterface gptInterface(gpt_token);
 PlayerSpiffsI2S playerOut;
 Camera camera;
-
+  
 
 void setup() {
     // Serial port for debugging purposes
@@ -54,7 +54,7 @@ void setup() {
 
 
 void loop() {
-    wifiAccess.isConnected();
+    
 
     // We will need to figure out the control system to determine WHEN we run the following loop
     // 
@@ -66,32 +66,44 @@ void loop() {
     // main Controller will only check for inputs each clock cycle.
     // 
 
-    String image_base64 = camera.capture_base64();
-    if(image_base64.length() == 0) {
-      Serial.println("Failed to capture or encode photo.");
-      return;
-    }
     
-    String gpt_response = gptInterface.getImgResponse(gpt_prompt, image_base64);
-    Serial.println(gpt_response);
-    
-    // listDir(SPIFFS, "/", 0);
+
+    if (touchRead(T14)>70000) {
+        wifiAccess.isConnected();
 
 
-    gptInterface.GPT_Text_Speech_To_File(gpt_response);
+        String image_base64 = camera.capture_base64();
+        if(image_base64.length() == 0) {
+        Serial.println("Failed to capture or encode photo.");
+        return;
+        }
+        
+        String gpt_response = gptInterface.getImgResponse(gpt_prompt, image_base64);
+        Serial.println(gpt_response);
+        
+        listDir(SPIFFS, "/", 0);
+        
+        
+        
 
-    // listDir(SPIFFS, "/", 0);
+        gptInterface.GPT_Text_Speech_To_File(gpt_response);
+        Serial.println("Done Writing Audio File");
+        listDir(SPIFFS, "/", 0);
 
-    playerOut.setup();
+        Serial.println("Waiting to Start Audio");
+        playerOut.setup();
+        
+        unsigned long startTime = millis();
+        unsigned long duration = 10000; // plays audio for about 10 seconds
 
-    unsigned long startTime = millis();
-    unsigned long duration = 30000; // plays audio for about 30 seconds
+        while (millis() - startTime < duration) {
+            playerOut.loop();  
+        }
+        Serial.println("Audio Done");
+        deleteFile(SPIFFS, "/audio.mp3");
 
-    while (millis() - startTime < duration) {
-        playerOut.loop();  
+        ESP.restart(); // quick fix
     }
 
-
-    Serial.println("Wait 120s before next round...");
-    delay(120000);
+    
 }
