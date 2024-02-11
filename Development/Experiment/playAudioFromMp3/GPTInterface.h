@@ -26,8 +26,8 @@ private:
     String JSON_Text_Speech(const String& gpt_prompt);
     String gptTextSpeech(const String& payload, const char* gpt_token);
 
-    String JSON_PayloadImg(const String& gpt_prompt, const String& base64_image);
-    String gptImgRequest(const String& payload, const char* gpt_token);
+    String JSON_Img_Payload(const String& gpt_prompt, const String& base64_image);
+    String GPT_img_request(const String& payload, const char* gpt_token);
 };
 
 #endif // GPT_INTERFACE_H
