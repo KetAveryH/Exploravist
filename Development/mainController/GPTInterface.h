@@ -13,7 +13,7 @@ public:
     GPTInterface(const char* gpt_token); // Constructor
     String getImgResponse(const String& gpt_prompt, const String& base64_image); // Method to get response from GPT
     void GPT_Text_Speech_To_File(const String& gpt_response);
-
+    
 
 private:
     // TODO: not sure how to securely set chatgpt_token
@@ -25,7 +25,7 @@ private:
     String JSON_Text_Speech(const String& gpt_prompt); // TTS helper
 
     String extractTextResponse(DynamicJsonDocument& doc); // GPT image + prompt helpers
-    String JSON_ImgPayload(const String& gpt_prompt, const String& base64_image);
+    String JSON_Img_Payload(const String& gpt_prompt, const String& base64_image);
     String GPT_img_request(const String& payload, const char* gpt_token);
 };
 
