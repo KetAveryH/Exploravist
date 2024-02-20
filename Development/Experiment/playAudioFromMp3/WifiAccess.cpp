@@ -13,13 +13,6 @@ String _password;
 // On the initialization of a WifiAccess object, we will need to have an ssid and password
 
 // Should I be able to construct a WifiAccess object?? I don't know... TODO
-
-/**
- * This is a wrapper object for the ESP32's wifi packages
- * 
- * @param Inputs Provide an ssid + password to initialize WifiAccess object
- * 
-*/
 WifiAccess::WifiAccess(const char* ssid, const char* password)
     : _ssid(ssid), _password(password) {}
     

@@ -32,8 +32,8 @@
 // ===========================
 // Enter your WiFi credentials
 // ===========================
-const char* ssid     = "Linksys3000";
-const char* password = "jass loves lynxlee";
+const char* ssid     = "Claremont-ETC";
+const char* password = "Cl@remontI0T";
 
 void startCameraServer();
 
