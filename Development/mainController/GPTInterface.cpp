@@ -79,6 +79,7 @@ String GPTInterface::GPT_img_request(const String& payload, const char* gpt_toke
       } else {
       Serial.print("Error on sending POST: ");
       Serial.println(http.errorToString(httpResponseCode));
+      // We need to figure out a way to properly repeat HTTP request.
       }
 
       http.end();
