@@ -26,11 +26,6 @@ private:
 
     String JSON_Text_Speech(const String& gpt_prompt); // TTS helper
 
-    String JSON_Text_Speech(const String& gpt_prompt); // TTS helper
-
-    String extractTextResponse(DynamicJsonDocument& doc); // GPT image + prompt helpers
-    String JSON_Img_Payload(const String& gpt_prompt, const String& base64_image);
-    String GPT_img_request(const String& payload, const char* gpt_token);
     String extractTextResponse(DynamicJsonDocument& doc); // GPT image + prompt helpers
     String JSON_Img_Payload(const String& gpt_prompt, const String& base64_image);
     String GPT_img_request(const String& payload, const char* gpt_token);

@@ -28,7 +28,8 @@ GPTInterface::GPTInterface(const char* gpt_token) : _gpt_token(gpt_token) {}
 */
 String GPTInterface::JSON_Img_Payload(const String& gpt_prompt, const String& base64_image) {
 
-    DynamicJsonDocument doc(50000); // Adjust the size to suit your needs
+    int image_len = base64_image.length();
+    DynamicJsonDocument doc(5000 + image_len); // Adjust the size to suit your needs
     // TODO: Create a function that dynamically sets doc parameter based on image size.
 
     // Create properly formatted JSON
@@ -223,6 +224,7 @@ void GPTInterface::playTextSegments(String text, String lang) {
     Audio audio;
     audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
     audio.setVolume(100);
+    int stop_play = 0; 
 
 
     if (text.length() <= 200) {
@@ -231,6 +233,9 @@ void GPTInterface::playTextSegments(String text, String lang) {
         Serial.print("Attempting to read full text, no segments");
         while (audio.isRunning()) {
                 audio.loop();
+                if (touchRead(T14)>70000) {
+                  break;
+                }
             }
     } else {
         // Split and play longer texts in segments.
@@ -256,6 +261,7 @@ void GPTInterface::playTextSegments(String text, String lang) {
             audio.connecttospeech(segment.c_str(), lang.c_str());
             while (audio.isRunning()) {
                 audio.loop();
+                st
             }
 
 

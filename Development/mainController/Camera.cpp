@@ -60,14 +60,12 @@ String Camera::capture_base64() {
   if (!fb) {
       Serial.println("Camera capture failed");
       return ""; // Return an empty string to indicate failure
-      return ""; // Return an empty string to indicate failure
   } else {
     // Encode the image in base64
     String base64Image = base64::encode(fb->buf, fb->len);
     if (base64Image.length() == 0) {
         Serial.println("Base64 encoding failed");
         esp_camera_fb_return(fb);
-        return ""; // Return an empty string to indicate failure
         return ""; // Return an empty string to indicate failure
     } else {
       Serial.print("Base64 Image Success! Length: ");

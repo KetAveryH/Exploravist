@@ -49,13 +49,6 @@
 //     .data_in_num = I2S_PIN_NO_CHANGE
 // };
 
-#define I2S_SCK 47
-#define I2S_WS  45
-#define I2S_SD  21
-#define I2S_PORT I2S_NUM_0
-
-
-
 
 const String gpt_prompt = "Can you please describe what you see in front of you as if you were describing it to a blind individual? Please make your response as concise as possible. Do not describe the lighting of the image. do not mention low image quality. Do not mention color. Focus on objects in the scene.";
 const char* ssid = "";
@@ -174,7 +167,7 @@ void loop() {
         // Serial.println("Audio Done");
         // deleteFile(SPIFFS, "/audio.mp3");
 
-        ESP.restart(); // quick fix
+        // ESP.restart(); // quick fix
     }
 
     
@@ -252,76 +245,5 @@ void playTone(void * parameter) {
 }
 
 
-
-void playTone(void * parameter) {
-    while (1) {
-        // play 1 beep
-        if (device.getBeep() == 1) {
-            const int sample_rate = 16000;
-            const int frequency = 440; // Frequency of the tone (A4 note)
-            const float volume = 0.1; // Very low volume
-
-            int16_t *sample = (int16_t *)malloc(sample_rate * sizeof(int16_t));
-
-            if (sample == NULL) {
-                Serial.println("Failed to allocate memory for tone");
-                return;
-            }
-
-            for (int i = 0; i < sample_rate; ++i) {
-                sample[i] = sin(frequency * 2 * PI * i / sample_rate) * 32767 * volume;
-            }
-            
-            unsigned long startTime = millis();
-            unsigned long duration = 250; // plays audio for about 3 seconds
-            Serial.println("Started Beep");
-            while (millis() - startTime < duration) {
-                Serial.println(millis() - startTime);
-                size_t bytes_written;
-                i2s_write(I2S_PORT, sample, sample_rate * sizeof(int16_t), &bytes_written, portMAX_DELAY);
-            }
-            Serial.println("finished with beep");
-            i2s_stop(I2S_PORT); // Stop I2S driver and transmission
-            free(sample);
-            device.setBeep(0);
-        }
-        // play two beeps
-        if (device.getBeep() == 2) {
-            const int sample_rate = 16000;
-            const int frequency = 440; // Frequency of the tone (A4 note)
-            const float volume = 0.1; // Very low volume
-
-            int16_t *sample = (int16_t *)malloc(sample_rate * sizeof(int16_t));
-
-            if (sample == NULL) {
-                Serial.println("Failed to allocate memory for tone");
-                return;
-            }
-
-            for (int i = 0; i < sample_rate; ++i) {
-                sample[i] = sin(frequency * 2 * PI * i / sample_rate) * 32767 * volume;
-            }
-            
-            unsigned long startTime = millis();
-            unsigned long duration = 100; // plays audio for about 3 seconds
-            while (millis() - startTime < duration) {
-                size_t bytes_written;
-                i2s_write(I2S_PORT, sample, sample_rate * sizeof(int16_t), &bytes_written, portMAX_DELAY);
-            } 
-            i2s_stop(I2S_PORT); // Stop I2S driver and transmission
-            delay(250);
-            startTime = millis(); // reset start time
-            while (millis() - startTime < duration) {
-                size_t bytes_written;
-                i2s_write(I2S_PORT, sample, sample_rate * sizeof(int16_t), &bytes_written, portMAX_DELAY);
-            }
-            i2s_stop(I2S_PORT); // Stop I2S driver and transmission
-            free(sample);
-            device.setBeep(0);
-        }
-        vTaskDelay(10);
-        // vTaskDelete(NULL); This would be used to delete the current thread but we want to continuously check for inputs.
-    }
-}
 
 
