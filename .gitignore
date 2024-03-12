@@ -1,0 +1,8 @@
+.devcontainer/
+.vscode/
+build/
+*sdkconfig
+*.ci
+*.old
+
+ElevenLabs/output.mp3
