@@ -68,7 +68,6 @@ int request_count = 0;
 WifiAccess wifiAccess(ssid, password); // Initialize WifiAccess object named "wifi"
 GPTInterface gptInterface(gpt_token);
 Esp32 device;
-Esp32 device;
 PlayerSpiffsI2S playerOut;
 Camera camera;
   
@@ -122,7 +121,6 @@ void loop() {
         wifiAccess.isConnected();
 
         // Play sound 
-        // Play sound 
         String image_base64 = camera.capture_base64();
         // Serial.print(image_base64);
         if(image_base64.length() == 0) {
@@ -130,9 +128,6 @@ void loop() {
         return;
         }
         
-        
-        
-        int request_delay = 10; // Initial delay before retrying
         
         String gpt_response = gptInterface.getImgResponse(gpt_prompt, image_base64);
         
