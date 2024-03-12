@@ -6,6 +6,7 @@
 #include "PlayerSpiffsI2S.h"
 #include <driver/i2s.h>
 #include <Arduino.h>
+#include "config.h"
 
 #include "soc/soc.h"           // Disable brownout problems
 #include "soc/rtc_cntl_reg.h"  // Disable brownout problems
@@ -51,11 +52,13 @@
 
 
 const String gpt_prompt = "Can you please describe what you see in front of you as if you were describing it to a blind individual? Please make your response as concise as possible. Do not describe the lighting of the image. do not mention low image quality. Do not mention color. Focus on objects in the scene.";
-const char* ssid = "";
-const char* password = "";
-// const char* ssid = "";
+
+// Copy the following below in to a Config.h fileand fill in the blank.
+// const char* ssid = ";
 // const char* password = "";
-const char* gpt_token = "";
+// const char* gpt_token = "";
+//
+
 int request_count = 0;
 
 WifiAccess wifiAccess(ssid, password); // Initialize WifiAccess object named "wifi"
