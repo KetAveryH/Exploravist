@@ -46,10 +46,10 @@ void WifiAccess::connect() {
 bool WifiAccess::isConnected() {
     if(WiFi.status() != WL_CONNECTED) {
         Serial.println("WiFi not connected.");
-        return true;
+        return false;
     } else {
         Serial.println("WiFi connected!");
-        return false;
+        return true;
     }
 }
 

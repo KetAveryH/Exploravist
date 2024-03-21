@@ -22,4 +22,7 @@ class  Esp32 {
         int beep;
     };
 
+
+void blinkNtimes(int numTimes, int spacing);
+
 #endif // ESP32_H

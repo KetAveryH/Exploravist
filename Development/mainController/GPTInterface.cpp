@@ -2,7 +2,9 @@
 #include "GPTInterface.h"
 #include <HTTPClient.h>
 #include "Audio.h"
+#include "Esp32.h"
 
+#define LED1 2
 
 #define I2S_DOUT      21
 #define I2S_BCLK      47
@@ -26,10 +28,8 @@ GPTInterface::GPTInterface(const char* gpt_token) : _gpt_token(gpt_token) {}
  * @param Inputs a gpt_prompt + base64 image
  * @return returns payload in JSON format.
 */
-String GPTInterface::JSON_Img_Payload(const String& gpt_prompt, const String& base64_image) {
-
-    int image_len = base64_image.length();
-    DynamicJsonDocument doc(5000 + image_len); // Adjust the size to suit your needs
+String GPTInterface::JSON_Img_Payload(const String& gpt_prompt, const String& base64_image, int img_len) {
+    DynamicJsonDocument doc(2000 + img_len); // Adjust the size to suit your needs
     // TODO: Create a function that dynamically sets doc parameter based on image size.
 
     // Create properly formatted JSON
@@ -50,7 +50,7 @@ String GPTInterface::JSON_Img_Payload(const String& gpt_prompt, const String& ba
     imageUrlObject["url"] = "data:image/jpeg;base64," + base64_image;
 
     doc["model"] = "gpt-4-vision-preview";
-    doc["max_tokens"] = 50;
+    doc["max_tokens"] = 75;
 
     String payload;
     serializeJson(doc, payload);
@@ -70,10 +70,14 @@ String GPTInterface::JSON_Img_Payload(const String& gpt_prompt, const String& ba
 */
 String GPTInterface::GPT_img_request(const String& payload, const char* gpt_token) { // 
       // Does the API Communication 
+    
+      pinMode(LED1,OUTPUT);
       HTTPClient http;
       http.begin("https://api.openai.com/v1/chat/completions"); // Your API endpoint
       http.addHeader("Content-Type", "application/json");
       http.addHeader("Authorization", "Bearer " + String(gpt_token)); // Your API key
+
+      http.setTimeout(20000); // Adjust this value as needed
 
       int httpResponseCode = http.POST(payload);
 
@@ -90,7 +94,8 @@ String GPTInterface::GPT_img_request(const String& payload, const char* gpt_toke
       }
 
       http.end();
-      
+
+
     return response;
 }
 
@@ -104,6 +109,8 @@ String GPTInterface::GPT_img_request(const String& payload, const char* gpt_toke
 */
 String GPTInterface::extractTextResponse(DynamicJsonDocument& doc) {
     String textResponse;
+
+
 
     // Check if 'choices' array exists and has at least one element
     if (doc.containsKey("choices") && doc["choices"].is<JsonArray>() && !doc["choices"].isNull()) {
@@ -134,17 +141,24 @@ String GPTInterface::extractTextResponse(DynamicJsonDocument& doc) {
 */
 String GPTInterface::getImgResponse(const String& gpt_prompt, const String& base64_image) {
     String payload;
-    payload = JSON_Img_Payload(gpt_prompt, base64_image); // puts gpt_prompt and base64_image into proper JSON format
-    String JSON_response = GPT_img_request(payload, _gpt_token);
+    int image_len = base64_image.length();
 
-    // Parse the JSON response
-    DynamicJsonDocument doc(20000); // Adjust the size according to your needs
-    deserializeJson(doc, JSON_response); // deserializes JSON
+    payload = JSON_Img_Payload(gpt_prompt, base64_image, image_len); // puts gpt_prompt and base64_image into proper JSON format
+    String response = GPT_img_request(payload, _gpt_token);
+    
+    if (response == "Error on response") {
+        return "Sorry, there was an issue getting a text response.";
+    } else {
+        // Parse the JSON response
+        DynamicJsonDocument doc(1000 + response.length()); // Adjust the size according to your needs
+        deserializeJson(doc, response); // deserializes JSON
 
-    // Extract the text response
-    String textResponse = extractTextResponse(doc);
+        // Extract the text response
+        String textResponse = extractTextResponse(doc);
 
-    return textResponse;
+        return textResponse;
+    }
+    
 }
 
 
@@ -233,7 +247,8 @@ void GPTInterface::playTextSegments(String text, String lang) {
         Serial.print("Attempting to read full text, no segments");
         while (audio.isRunning()) {
                 audio.loop();
-                if (touchRead(T14)>70000) {
+                if (touchRead(T14)>35000) {
+                  stop_play = 1;
                   break;
                 }
             }
@@ -261,12 +276,23 @@ void GPTInterface::playTextSegments(String text, String lang) {
             audio.connecttospeech(segment.c_str(), lang.c_str());
             while (audio.isRunning()) {
                 audio.loop();
-                st
+                if (touchRead(T14)>35000) {
+                  stop_play = 1;
+                  break;
+                }
+            }
+
+            if (stop_play == 1) {
+              break;
             }
 
 
             start = end + 1; // Move to the next segment
         }
+
+      if (stop_play) {
+        delay(300);
+      }
     }
 }
 
