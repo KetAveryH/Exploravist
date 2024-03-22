@@ -39,7 +39,7 @@ void Camera::initializeCamera() {
     config.xclk_freq_hz = 20000000;
     config.pixel_format = PIXFORMAT_JPEG;
 
-    config.frame_size = FRAMESIZE_HVGA;
+    config.frame_size = FRAMESIZE_HVGA;  // XGA, VGA, CIF, SVGA
     config.jpeg_quality = 10;
     config.fb_count = 1;
 

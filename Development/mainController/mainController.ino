@@ -3,6 +3,8 @@
 #include "WifiAccess.h"
 #include "gptInterface.h"
 #include "sd_read_write.h"
+#include "SD_MMC.h"   // new
+#include "AudioESP.h" // new
 #include "PlayerSpiffsI2S.h"
 #include <driver/i2s.h>
 #include <Arduino.h>
@@ -14,6 +16,9 @@
 #define LED1 2
 /// mainController.ino is the controller for all the functionality within our ESP32 device.
 
+#define SD_MMC_CMD 38 //Please do not modify it.
+#define SD_MMC_CLK 39 //Please do not modify it. 
+#define SD_MMC_D0  40 //Please do not modify it.
 
 // This is a macro, defined in pre-processing
 // All included files have access to this macro
@@ -25,30 +30,6 @@
 // #define I2S_WS  45 // LRC
 // #define I2S_SD  21  //DOUT
 #define I2S_PORT I2S_NUM_0
-
-
-
-// Audio audio;
-
-// I2S configuration
-// i2s_config_t i2s_config = {
-//     .mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_TX),
-//     .sample_rate = 16000,
-//     .bits_per_sample = I2S_BITS_PER_SAMPLE_16BIT,
-//     .channel_format = I2S_CHANNEL_FMT_RIGHT_LEFT,
-//     .communication_format = I2S_COMM_FORMAT_STAND_MSB,
-//     .intr_alloc_flags = ESP_INTR_FLAG_LEVEL1,
-//     .dma_buf_count = 8,
-//     .dma_buf_len = 64
-// };
-
-// I2S pinout
-// i2s_pin_config_t pin_config = {
-//     .bck_io_num = I2S_SCK,
-//     .ws_io_num = I2S_WS,
-//     .data_out_num = I2S_SD,
-//     .data_in_num = I2S_PIN_NO_CHANGE
-// };
 
 
 // const String gpt_prompt = "Can you please describe what you see in front of you as if you were describing it to a blind individual? Please make your response as concise as possible. Do not describe the lighting of the image. do not mention low image quality. Do not mention color. Focus on objects in the scene.";
@@ -78,6 +59,18 @@ void setup() {
     wifiAccess.connect();
     // blinkNtimes(2, 400);
     camera.initializeCamera();
+
+    // SD_MMC Initialization
+    SD_MMC.setPins(SD_MMC_CLK, SD_MMC_CMD, SD_MMC_D0);
+    if (!SD_MMC.begin("/sdcard", true, true, SDMMC_FREQ_DEFAULT, 5)) {
+      Serial.println("Card Mount Failed");
+      return;
+    }
+    uint8_t cardType = SD_MMC.cardType();
+    if(cardType == CARD_NONE){
+        Serial.println("No SD_MMC card attached");
+        return;
+    }
 
 
     // SPIFFS Initialization
@@ -118,8 +111,11 @@ void loop() {
 
     
 
-    // if (touchRead(T14)>20000) {
+
       if (touchRead(T14)>35000) {
+        int percentage = device.readPercentage(); 
+        device.playBatterySound(percentage);
+
         Serial.println(wifiAccess.isConnected()); 
         if (wifiAccess.isConnected()) {
         //   blinkNtimes(1, 300);
