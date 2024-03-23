@@ -57,7 +57,6 @@ void setup() {
     Serial.println(ssid);
     delay(1000);
     wifiAccess.connect();
-    // blinkNtimes(2, 400);
     camera.initializeCamera();
 
     // SD_MMC Initialization
@@ -81,45 +80,18 @@ void setup() {
 
     // Turn-off the 'brownout detector'
     WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0); // Might help overcome early shutoff due to power fluctuations
-    
-    // Initialize I2S
-    // i2s_driver_install(I2S_PORT, &i2s_config, 0, NULL);
-    // i2s_set_pin(I2S_PORT, &pin_config);
-
-    // audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
-    // audio.setVolume(100);
-
-    // Start a task to generate and play the tone
-    // xTaskCreatePinnedToCore(playTone, "PlayTone", 8192, NULL, 1, NULL, 0);
 }
 
 
 
 void loop() {
     
-    // blinkNtimes(4, 200); 
-    // delay(500);
-    // We will need to figure out the control system to determine WHEN we run the following loop
-    // 
-    // embedded systems
-    // interuptions prompted by user inputs
-    // 
-    // Buffer user inputs
-    // Run parallel process that performs entire loop, the process is interruptable
-    // main Controller will only check for inputs each clock cycle.
-    // 
-
-    
-
-
       if (touchRead(T14)>35000) {
         int percentage = device.readPercentage(); 
         device.playBatterySound(percentage);
 
         Serial.println(wifiAccess.isConnected()); 
         if (wifiAccess.isConnected()) {
-        //   blinkNtimes(1, 300);
-
         } else {
         //   blinkNtimes(4, 1000); // If WiFi Not connected blink 4 times, 1 second long beeps.
         }
@@ -137,50 +109,15 @@ void loop() {
         
         String gpt_response = gptInterface.getImgResponse(gpt_prompt, image_base64);
         
-        // while (request_count < 10 && gpt_response == "Error on response") {
-        //     if (request_delay > 1000) {
-        //       request_delay = 500;
-        //     }
-        //     delay(request_delay); // Wait before retrying
-        //     gpt_response = gptInterface.getImgResponse(gpt_prompt, image_base64);
-            
-        //     request_delay *= 2; // Exponential back-off
-        //     request_count++;
-        // }
-        
         request_count = 0;
         // device.setBeep(1);
         
         
-        
-        
-        
-        
         listDir(SPIFFS, "/", 0);
-        
-        
-        
+
         
         // gptInterface.GPT_Text_Speech_To_File(gpt_response);
         gptInterface.GoogleTTS(gpt_response, "en");
-
-        // Serial.println("Done Writing Audio File");
-        // listDir(SPIFFS, "/", 0);
-
-        // Serial.println("Waiting to Start Audio");
-        // playerOut.setup();
-        
-        // unsigned long startTime = millis();
-        // unsigned long duration = 10000; // plays audio for about 10 seconds
-
-        // while (millis() - startTime < duration) {
-        //     // playerOut.loop();  
-        //     audio.loop()
-        // }
-        // Serial.println("Audio Done");
-        // deleteFile(SPIFFS, "/audio.mp3");
-
-        // ESP.restart(); // quick fix
     }
 
     
