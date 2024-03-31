@@ -154,7 +154,8 @@ int Esp32::inputHandler() {
     // continuously poll the difference
     while (true) {
         // sleep for some time 
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+        // delay(1000);
+        std::this_thread::sleep_for(std::chrono::milliseconds(250));
 
         // current_value
         int curr_value = touchRead(T14);
