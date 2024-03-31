@@ -16,6 +16,10 @@
 #define LED1 2
 /// mainController.ino is the controller for all the functionality within our ESP32 device.
 
+#define I2S_LRC       45 // LR Clock (LRC)
+#define I2S_BCLK      47 // Bit Clock (BCLK)
+#define I2S_DOUT      21 // Data Out (DIN)
+
 #define SD_MMC_CMD 38 //Please do not modify it.
 #define SD_MMC_CLK 39 //Please do not modify it. 
 #define SD_MMC_D0  40 //Please do not modify it.
@@ -48,7 +52,7 @@ GPTInterface gptInterface(gpt_token);
 Esp32 device;
 PlayerSpiffsI2S playerOut;
 Camera camera;
-  
+AudioESP audio;
 
 void setup() {
     // Serial port for debugging purposes
@@ -71,6 +75,8 @@ void setup() {
         return;
     }
 
+    audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
+    audio.setVolume(12); // 0...21
 
     // SPIFFS Initialization
     if(!SPIFFS.begin(FORMAT_SPIFFS_IF_FAILED)){
@@ -82,13 +88,38 @@ void setup() {
     WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0); // Might help overcome early shutoff due to power fluctuations
 }
 
-
+int menuIndex = 0;
+String menuOptions[] = {"shortDescription.wav", "LongDescription.wav", "Volume.wav", "BatteryLevel.wav"};
+bool first = true;
 
 void loop() {
     
-      if (touchRead(T14)>35000) {
-        int percentage = device.readPercentage(); 
-        device.playBatterySound(percentage);
+    if (touchRead(T3)>35000) {
+        menuIndex++;
+        if (menuIndex > 3 || first) {
+            menuIndex = 0;
+            first = false;
+        } 
+
+        audio.connecttoFS(SD_MMC, menuOptions[menuIndex].c_str());
+        // delay(50); // give user time to take their hand off of the button
+        while (audio.isRunning()) {
+            audio.loop();
+        }
+    }
+
+
+    if (touchRead(T14)>35000) { 
+        if (menuIndex == 0) {          // Short Description
+          gptInterface.setMaxToken(75);   
+        } else if (menuIndex == 1) {   // Long Description
+          gptInterface.setMaxToken(150);
+        }
+
+    // Description
+      if (menuIndex == 0 || menuIndex == 1) {
+        // int percentage = device.readPercentage(); 
+        // device.playBatterySound(percentage);
 
         Serial.println(wifiAccess.isConnected()); 
         if (wifiAccess.isConnected()) {
@@ -118,7 +149,58 @@ void loop() {
         
         // gptInterface.GPT_Text_Speech_To_File(gpt_response);
         gptInterface.GoogleTTS(gpt_response, "en");
+      }
+
+       // Volume
+      if(menuIndex == 2) {
+        Serial.println("Work in progress");
+      }
+
+      // BatteryLevel
+      if (menuIndex == 3) {
+        int percentage = device.readPercentage(); 
+        device.playBatterySound(percentage);
+      }
+        
     }
+
+   
+
+
+
+    //   if (touchRead(T14)>35000) {
+    //     int percentage = device.readPercentage(); 
+    //     device.playBatterySound(percentage);
+
+    //     Serial.println(wifiAccess.isConnected()); 
+    //     if (wifiAccess.isConnected()) {
+    //     } else {
+    //     //   blinkNtimes(4, 1000); // If WiFi Not connected blink 4 times, 1 second long beeps.
+    //     }
+
+    //     // Play sound 
+    //     String image_base64 = camera.capture_base64();
+    //     // Serial.print(image_base64);
+    //     if(image_base64.length() == 0) {
+    //     Serial.println("Failed to capture or encode photo.");
+    //     return;
+    //     }
+
+    //     Serial.println(image_base64);
+        
+        
+    //     String gpt_response = gptInterface.getImgResponse(gpt_prompt, image_base64);
+        
+    //     request_count = 0;
+    //     // device.setBeep(1);
+        
+        
+    //     listDir(SPIFFS, "/", 0);
+
+        
+    //     // gptInterface.GPT_Text_Speech_To_File(gpt_response);
+    //     gptInterface.GoogleTTS(gpt_response, "en");
+    // }
 
     
 }

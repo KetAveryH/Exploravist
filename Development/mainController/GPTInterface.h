@@ -15,12 +15,14 @@ public:
     void GPT_Text_Speech_To_File(const String& gpt_response);
     void GoogleTTS(String text, String lang);
     void playTextSegments(String text, String lang);
+    void setMaxToken(int max_token);
     
 
 private:
     // TODO: not sure how to securely set chatgpt_token
 
     const char* _gpt_token; // Private member variable for storing the GPT token
+    int _max_token;
 
     // Private helper methods
 

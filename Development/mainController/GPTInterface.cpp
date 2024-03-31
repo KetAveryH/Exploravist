@@ -17,9 +17,14 @@ const char* _gpt_token = ""; // TODO:
                                 // Need a better way to store gpt_token (be able to cycle through tokens securely)
                                 // a configuration file would be good to start
 
+int _max_token = 75;
 
 GPTInterface::GPTInterface(const char* gpt_token) : _gpt_token(gpt_token) {}
 
+
+void GPTInterface::setMaxToken(int max_token) {
+  _max_token = max_token;
+}
 /**
  * HELPER FUNCTION to getImgResponse()
  * 
@@ -50,7 +55,7 @@ String GPTInterface::JSON_Img_Payload(const String& gpt_prompt, const String& ba
     imageUrlObject["url"] = "data:image/jpeg;base64," + base64_image;
 
     doc["model"] = "gpt-4-vision-preview";
-    doc["max_tokens"] = 75;
+    doc["max_tokens"] = _max_token;
 
     String payload;
     serializeJson(doc, payload);
