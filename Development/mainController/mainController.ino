@@ -85,6 +85,7 @@ void setup() {
 
 
 void loop() {
+    inputHandler(); // Difference
     
       if (touchRead(T14)>35000) {
         int percentage = device.readPercentage(); 

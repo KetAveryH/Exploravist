@@ -7,6 +7,11 @@
 #include "FS.h"
 #include <SPI.h>
 #include <Wire.h>
+#include <time.h>
+#include <iostream>
+#include <chrono>
+#include <thread>
+
 
 #define LED1 2
 
@@ -46,26 +51,32 @@ float Esp32::readPercentage() {
 
 void Esp32::playWAVFile(const String &filename) {
     AudioESP audio;
-    delay(5);
+    
 
     audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
     audio.setVolume(12); // 0...21
 
     audio.connecttoFS(SD_MMC, filename.c_str());
+    delay(25);
 
     while (audio.isRunning()) {
-        Serial.println("is playing");
+        // Serial.println("is playing");
         audio.loop();
+
         if(Serial.available()){ // put streamURL in serial monitor
             audio.stopSong();
             String r=Serial.readString(); r.trim();
             if(r.length()>5) audio.connecttohost(r.c_str());
             log_i("free heap=%i", ESP.getFreeHeap());
         }
-    }
 
+        if(touchRead(T3) > TOUCHTHRESHOLD) {
+            break;
+        }
+    }
+    
     // Your actual code to play the .wav file should go here
-    Serial.println("Playing file: " + filename);
+    
 }
 
 // Function to find the nearest multiple of 5
@@ -90,8 +101,85 @@ uint16_t Esp32::read16(uint8_t reg) {
 void Esp32::playBatterySound(int percentage) {
   int roundedPercentage = nearestMultipleOfFive(percentage);
   String filename = "Battery " + String(roundedPercentage) + " .wav";
+//   filename = "Volume.wav"; // for testing
   playWAVFile(filename);
 }
+
+// Reads out the menus
+int Esp32::menuAudioManager(int menuIndex){
+    String filename = "";
+    if (menuIndex == 1) {
+        filename = "ShortDescription.wav";
+        playWAVFile(filename);  // Just testing if the type is an issue
+      } else if (menuIndex == 2) {
+        playWAVFile("LongDescription.wav");
+      } else if (menuIndex == 3) {
+        playWAVFile("Volume.wav");
+      } else if (menuIndex == 4) {
+        playWAVFile("BatteryLevel.wav");
+      } else {
+        Serial.println("Outside of menu range Error");
+      }
+
+}
+
+// Outputs current position in the selection menu
+// 1: short description 2: Long Description 3: Volume
+int Esp32::menuManager(int* menuIndex){
+    while (true) {
+
+        // Front Button Pressed
+        if (touchRead(T14)>TOUCHTHRESHOLD) {  
+            return *menuIndex;
+        }
+
+        // Back Button Pressed
+        if (touchRead(T3)>TOUCHTHRESHOLD) {
+            Serial.println("We are here");
+            if (*menuIndex >= 3) {
+                *menuIndex = 1;
+            }
+            
+            (*menuIndex)++;
+            delay(10);
+            menuAudioManager(*menuIndex);
+        }
+        delay(10);
+    }
+    
+}
+
+int Esp32::inputHandler() {
+    int prev_value = touchRead(T14);
+    // continuously poll the difference
+    while (true) {
+        // sleep for some time 
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+
+        // current_value
+        int curr_value = touchRead(T14);
+        int difference = curr_value - prev_value;
+        std::cout << "Difference" << difference << endl;
+
+        prev_value = curr_value;
+
+
+    }
+
+    return 0;
+    // // when difference is above a certain threshold, then change state (go into while loop)
+    // // if tap, call menuManger
+    // while (capacitanceHold > x secs) { 
+    //     // track to another state change 
+    //     //x threshold is number of seconds
+    //     //count secs
+
+    //     time_t start = time(0);
+    //     double seconds_since_start = difftime( time(0), start);
+    // }
+    // // if hold,
+}
+
 
 int Esp32::getBeep() {
     return beep;

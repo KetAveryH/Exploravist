@@ -3,7 +3,9 @@
 #define ESP32_H
 
 // MACROS FOR PIN LAYOUT:
-#define CAMERA_MODEL_ESP32S3_EYE // ESP32-s3 WROOM | Has PSRAM
+#define CAMERA_MODEL_ESP32S3_EYE // ESP32-s3 WROOM | Has 
+#define TOUCHTHRESHOLD 35000 
+
 #include <cstdint>
 #include <Arduino.h>
 
@@ -18,9 +20,12 @@ class  Esp32 {
         void setBeep(int);
         float readPercentage();
         void playBatterySound(int percentage);
+        int menuManager(int* menuIndex);
+        int inputHandler();
 
         // Implement getter and setter methods for the private variables below/
     private:
+        int menuAudioManager(int menuIndex);
         void playWAVFile(const String &filename);
         uint16_t read16(uint8_t reg);
         int nearestMultipleOfFive(int percentage);
