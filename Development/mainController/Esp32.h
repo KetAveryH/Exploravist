@@ -22,12 +22,13 @@ class  Esp32 {
         void GoogleTTS(String text, String lang);
         void increaseVolume();
         void decreaseVolume();
+        void playWAVFile(const String &filename);
         Audio audio;
 
 
         // Implement getter and setter methods for the private variables below/
     private:
-        void playWAVFile(const String &filename);
+        
         void playTextSegments(String text, String lang);
         uint16_t read16(uint8_t reg);
         int nearestMultipleOfFive(int percentage);

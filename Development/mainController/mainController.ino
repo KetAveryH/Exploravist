@@ -59,7 +59,7 @@ void setup() {
     Serial.begin(115200); 
     
     Serial.println(ssid);
-    delay(1000);
+    // delay(1000);
     wifiAccess.connect();
     camera.initializeCamera();
 
@@ -94,10 +94,10 @@ bool first = true;
 void loop() {
     
     if (touchRead(T3)>35000) {
+        // listDir(SD_MMC,"/", 0);
+        // delay(10);
+        // device.playWAVFile("popClick.wav");
         // Audio audio;
-        device.audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
-        device.audio.setVolume(12); // 0...21
-
         menuIndex++;
         Serial.println(menuIndex);
         if (menuIndex > 3 || first) {
@@ -105,19 +105,24 @@ void loop() {
             first = false;
         } 
 
-        device.audio.connecttoFS(SD_MMC, menuOptions[menuIndex].c_str());
-        delay(15); // delay 
-        while (device.audio.isRunning()) {
-            device.audio.loop();
-        }
+        delay(5);
+
+        device.playWAVFile(menuOptions[menuIndex]);
+        // device.audio.connecttoFS(SD_MMC, menuOptions[menuIndex].c_str());
+        // delay(15); // delay 
+        // while (device.audio.isRunning()) {
+        //     device.audio.loop();
+        // }
     }
 
 
     if (touchRead(T14)>35000) { 
+        device.playWAVFile("popClick.wav");
+        
         if (menuIndex == 0) {          // Short Description
-          gptInterface.setMaxToken(75);   
+            gptInterface.setMaxToken(75);   
         } else if (menuIndex == 1) {   // Long Description
-          gptInterface.setMaxToken(150);
+            gptInterface.setMaxToken(150);
         }
 
     // Description
@@ -153,14 +158,16 @@ void loop() {
         
         // gptInterface.GPT_Text_Speech_To_File(gpt_response);
         device.GoogleTTS(gpt_response, "en");
+        menuIndex = 0;
+        first = true;
       }
 
        // Volume
       if(menuIndex == 2) {
-        Serial.println("Work in progress");
+        // Serial.println("Work in progress");
         // Set a timer for 3 seconds that resets if no inputs are received
         delay(500);
-        unsigned long timer = 10000;
+        unsigned long timer = 3000;
         unsigned long lastTime = millis();
         unsigned long newTime = millis();
         while(newTime - lastTime < timer) {
@@ -168,19 +175,22 @@ void loop() {
           newTime = millis();
           if(touchRead(T14)>35000) {
             device.increaseVolume();
-            delay(500);
+            device.playWAVFile("popClick.wav");
+            delay(300);
             newTime = millis();
             lastTime = millis(); 
           }
           if(touchRead(T3)>35000) {
             device.decreaseVolume();
-            delay(500);
+            device.playWAVFile("popClick.wav");
+            delay(300);
             newTime = millis();
             lastTime = millis();
           }
           delay(10);
         }
         menuIndex = 0;
+        first = true;
         Serial.println("exited");
       }
 
@@ -188,48 +198,13 @@ void loop() {
       if (menuIndex == 3) {
         int percentage = device.readPercentage(); 
         device.playBatterySound(percentage);
+        menuIndex = 0;
+        first = true;
       }
         
     }
 
    
-
-
-
-    //   if (touchRead(T14)>35000) {
-    //     int percentage = device.readPercentage(); 
-    //     device.playBatterySound(percentage);
-
-    //     Serial.println(wifiAccess.isConnected()); 
-    //     if (wifiAccess.isConnected()) {
-    //     } else {
-    //     //   blinkNtimes(4, 1000); // If WiFi Not connected blink 4 times, 1 second long beeps.
-    //     }
-
-    //     // Play sound 
-    //     String image_base64 = camera.capture_base64();
-    //     // Serial.print(image_base64);
-    //     if(image_base64.length() == 0) {
-    //     Serial.println("Failed to capture or encode photo.");
-    //     return;
-    //     }
-
-    //     Serial.println(image_base64);
-        
-        
-    //     String gpt_response = gptInterface.getImgResponse(gpt_prompt, image_base64);
-        
-    //     request_count = 0;
-    //     // device.setBeep(1);
-        
-        
-    //     listDir(SPIFFS, "/", 0);
-
-        
-    //     // gptInterface.GPT_Text_Speech_To_File(gpt_response);
-    //     gptInterface.GoogleTTS(gpt_response, "en");
-    // }
-
     
 }
 

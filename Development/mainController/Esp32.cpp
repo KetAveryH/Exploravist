@@ -42,14 +42,37 @@ Esp32::Esp32() {
     Wire.begin(2,48); // Initialize I2C
 };
 
+void Esp32::playWAVFile(const String &filename) {
+    delay(5);
+    if (!audio.connecttoFS(SD_MMC, filename.c_str())) {
+        Serial.println("Failed to connect to file system.");
+        return;
+    }
+
+    while (audio.isRunning()) {
+        // Serial.println("is playing");
+        audio.loop();
+        if(Serial.available()){ // put streamURL in serial monitor
+            audio.stopSong();
+            String r=Serial.readString(); r.trim();
+            if(r.length()>5) audio.connecttohost(r.c_str());
+            log_i("free heap=%i", ESP.getFreeHeap());
+        }
+    }
+
+    // Your actual code to play the .wav file should go here
+    Serial.println("Playing file: " + filename);
+}
+
 void Esp32::increaseVolume() {
-    if (systemVolume < 15) {
+    if (systemVolume < 21) {
         systemVolume += 1; // Increase the volume by 1 unit
         audio.setVolume(systemVolume); // Apply the new volume to the Audio object
         Serial.print("Volume increased to: ");
         Serial.println(systemVolume);
     } else {
-        Serial.println("Volume is already at maximum.");
+        Esp32::playWAVFile("MaximumVolume");
+        Serial.println("Maximum Volume.");
     }
 }
 
@@ -72,30 +95,7 @@ float Esp32::readPercentage() {
 }
 
 
-void Esp32::playWAVFile(const String &filename) {
-    delay(5);
 
-    
-
-    if (!audio.connecttoFS(SD_MMC, filename.c_str())) {
-        Serial.println("Failed to connect to file system.");
-        return;
-    }
-
-    while (audio.isRunning()) {
-        Serial.println("is playing");
-        audio.loop();
-        if(Serial.available()){ // put streamURL in serial monitor
-            audio.stopSong();
-            String r=Serial.readString(); r.trim();
-            if(r.length()>5) audio.connecttohost(r.c_str());
-            log_i("free heap=%i", ESP.getFreeHeap());
-        }
-    }
-
-    // Your actual code to play the .wav file should go here
-    Serial.println("Playing file: " + filename);
-}
 
 // Function to find the nearest multiple of 5
 int Esp32::nearestMultipleOfFive(int percentage) {
