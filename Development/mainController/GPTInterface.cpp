@@ -1,7 +1,7 @@
 // GPTInterface.cpp
 #include "GPTInterface.h"
 #include <HTTPClient.h>
-#include "AudioESP.h"
+#include "Audio.h"
 #include "Esp32.h"
 
 #define LED1 2
@@ -240,7 +240,7 @@ void GPTInterface::GPT_Text_Speech_To_File(const String& gpt_response) {
 
 
 void GPTInterface::playTextSegments(String text, String lang) {
-    AudioESP audio;
+    Audio audio;
     audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
     audio.setVolume(100);
     int stop_play = 0; 

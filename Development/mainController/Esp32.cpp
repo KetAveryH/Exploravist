@@ -1,7 +1,7 @@
 // Esp32.cpp
 #include "Esp32.h"
 // #include <Arduino.h>
-#include "AudioESP.h"
+#include "Audio.h"
 #include "SD.h"
 #include "SD_MMC.h"
 #include "FS.h"
@@ -45,7 +45,7 @@ float Esp32::readPercentage() {
 }
 
 void Esp32::playWAVFile(const String &filename) {
-    AudioESP audio;
+    Audio audio;
     delay(5);
 
     audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
