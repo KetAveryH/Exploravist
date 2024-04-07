@@ -1,7 +1,7 @@
 // GPTInterface.cpp
 #include "GPTInterface.h"
 #include <HTTPClient.h>
-#include "AudioESP.h"
+#include "Audio.h"
 #include "Esp32.h"
 
 #define LED1 2
@@ -239,81 +239,7 @@ void GPTInterface::GPT_Text_Speech_To_File(const String& gpt_response) {
 
 
 
-void GPTInterface::playTextSegments(String text, String lang) {
-    AudioESP audio;
-    audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
-    audio.setVolume(100);
-    int stop_play = 0; 
 
-
-    if (text.length() <= 200) {
-        // If the text is shorter than 200 characters, play it directly.
-        audio.connecttospeech(text.c_str(), lang.c_str());
-        Serial.print("Attempting to read full text, no segments");
-        while (audio.isRunning()) {
-                audio.loop();
-                if (touchRead(T14)>35000) {
-                  stop_play = 1;
-                  break;
-                }
-            }
-    } else {
-        // Split and play longer texts in segments.
-        size_t start = 0;
-        while (start < text.length()) {
-            size_t segmentLength = 200;
-            if (start + segmentLength > text.length()) segmentLength = text.length() - start;
-           
-            // Find the nearest space to cut off the segment
-            size_t end = start + segmentLength;
-            if (end < text.length()) {
-                while (end > start && text[end] != ' ') end--;
-            }
-
-
-            // Create a segment
-            String segment = text.substring(start, end);
-
-
-            // Play the segment
-            Serial.print("Here is our segment: ");
-            Serial.println(segment);
-            audio.connecttospeech(segment.c_str(), lang.c_str());
-            while (audio.isRunning()) {
-                audio.loop();
-                if (touchRead(T14)>35000) {
-                  stop_play = 1;
-                  break;
-                }
-            }
-
-            if (stop_play == 1) {
-              break;
-            }
-
-
-            start = end + 1; // Move to the next segment
-        }
-
-      if (stop_play) {
-        delay(300);
-      }
-    }
-}
-
-
-void GPTInterface::GoogleTTS(String text, String lang) {
-   
-
-
-    if (text != NULL) {
-        Serial.println("Playing texts");
-        playTextSegments(text, lang);
-    } else {
-        Serial.println("Error TTS, text empty");
-    }
-   
-}
 
 
 

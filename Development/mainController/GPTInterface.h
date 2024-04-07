@@ -13,8 +13,8 @@ public:
     GPTInterface(const char* gpt_token); // Constructor
     String getImgResponse(const String& gpt_prompt, const String& base64_image); // Method to get response from GPT
     void GPT_Text_Speech_To_File(const String& gpt_response);
-    void GoogleTTS(String text, String lang);
-    void playTextSegments(String text, String lang);
+    // void GoogleTTS(String text, String lang);
+    // void playTextSegments(String text, String lang);
     void setMaxToken(int max_token);
     
 

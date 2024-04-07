@@ -1,7 +1,7 @@
 // Esp32.cpp
 #include "Esp32.h"
 // #include <Arduino.h>
-#include "AudioESP.h"
+
 #include "SD.h"
 #include "SD_MMC.h"
 #include "FS.h"
@@ -27,15 +27,42 @@
 #define SD_MMC_CLK 39 //Please do not modify it. 
 #define SD_MMC_D0  40 //Please do not modify it.
 
+Audio audio;
+
 
 Esp32::Esp32() {
-    
     ssid = "";
     password = "";
-    systemVolume = 0.015;
+    systemVolume = 12;
     beep = 0;
+
+    audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
+    audio.setVolume(systemVolume); // 0...21
+
     Wire.begin(2,48); // Initialize I2C
 };
+
+void Esp32::increaseVolume() {
+    if (systemVolume < 15) {
+        systemVolume += 1; // Increase the volume by 1 unit
+        audio.setVolume(systemVolume); // Apply the new volume to the Audio object
+        Serial.print("Volume increased to: ");
+        Serial.println(systemVolume);
+    } else {
+        Serial.println("Volume is already at maximum.");
+    }
+}
+
+void Esp32::decreaseVolume() {
+    if (systemVolume > 0) {
+        systemVolume -= 1; // Decrease the volume by 1 unit
+        audio.setVolume(systemVolume); // Apply the new volume to the Audio object
+        Serial.print("Volume decreased to: ");
+        Serial.println(systemVolume);
+    } else {
+        Serial.println("Volume is already at minimum.");
+    }
+}
 
 float Esp32::readPercentage() {
     uint16_t soc = read16(MAX17048_SOC);
@@ -44,14 +71,16 @@ float Esp32::readPercentage() {
     return static_cast<float>(soc) / 256; // Convert to percentage
 }
 
+
 void Esp32::playWAVFile(const String &filename) {
-    AudioESP audio;
     delay(5);
 
-    audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
-    audio.setVolume(12); // 0...21
+    
 
-    audio.connecttoFS(SD_MMC, filename.c_str());
+    if (!audio.connecttoFS(SD_MMC, filename.c_str())) {
+        Serial.println("Failed to connect to file system.");
+        return;
+    }
 
     while (audio.isRunning()) {
         Serial.println("is playing");
@@ -91,6 +120,82 @@ void Esp32::playBatterySound(int percentage) {
   int roundedPercentage = nearestMultipleOfFive(percentage);
   String filename = "Battery " + String(roundedPercentage) + " .wav";
   playWAVFile(filename);
+}
+
+void Esp32::playTextSegments(String text, String lang) {
+    // Audio audio;
+    // audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
+    // audio.setVolume(100);
+    int stop_play = 0; 
+
+
+    if (text.length() <= 200) {
+        // If the text is shorter than 200 characters, play it directly.
+        audio.connecttospeech(text.c_str(), lang.c_str());
+        Serial.print("Attempting to read full text, no segments");
+        while (audio.isRunning()) {
+                audio.loop();
+                if (touchRead(T14)>35000) {
+                  stop_play = 1;
+                  break;
+                }
+            }
+    } else {
+        // Split and play longer texts in segments.
+        size_t start = 0;
+        while (start < text.length()) {
+            size_t segmentLength = 200;
+            if (start + segmentLength > text.length()) segmentLength = text.length() - start;
+           
+            // Find the nearest space to cut off the segment
+            size_t end = start + segmentLength;
+            if (end < text.length()) {
+                while (end > start && text[end] != ' ') end--;
+            }
+
+
+            // Create a segment
+            String segment = text.substring(start, end);
+
+
+            // Play the segment
+            Serial.print("Here is our segment: ");
+            Serial.println(segment);
+            audio.connecttospeech(segment.c_str(), lang.c_str());
+            while (audio.isRunning()) {
+                audio.loop();
+                if (touchRead(T14)>35000) {
+                  stop_play = 1;
+                  break;
+                }
+            }
+
+            if (stop_play == 1) {
+              break;
+            }
+
+
+            start = end + 1; // Move to the next segment
+        }
+
+      if (stop_play) {
+        delay(300);
+      }
+    }
+}
+
+
+void Esp32::GoogleTTS(String text, String lang) {
+   
+
+
+    if (text != NULL) {
+        Serial.println("Playing texts");
+        playTextSegments(text, lang);
+    } else {
+        Serial.println("Error TTS, text empty");
+    }
+   
 }
 
 int Esp32::getBeep() {

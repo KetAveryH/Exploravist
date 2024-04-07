@@ -4,7 +4,7 @@
 #include "gptInterface.h"
 #include "sd_read_write.h"
 #include "SD_MMC.h"   // new
-#include "AudioESP.h" // new
+#include "Audio.h" // new
 #include "PlayerSpiffsI2S.h"
 #include <driver/i2s.h>
 #include <Arduino.h>
@@ -52,7 +52,7 @@ GPTInterface gptInterface(gpt_token);
 Esp32 device;
 PlayerSpiffsI2S playerOut;
 Camera camera;
-AudioESP audio;
+
 
 void setup() {
     // Serial port for debugging purposes
@@ -75,8 +75,7 @@ void setup() {
         return;
     }
 
-    audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
-    audio.setVolume(12); // 0...21
+
 
     // SPIFFS Initialization
     if(!SPIFFS.begin(FORMAT_SPIFFS_IF_FAILED)){
@@ -95,16 +94,21 @@ bool first = true;
 void loop() {
     
     if (touchRead(T3)>35000) {
+        // Audio audio;
+        device.audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
+        device.audio.setVolume(12); // 0...21
+
         menuIndex++;
+        Serial.println(menuIndex);
         if (menuIndex > 3 || first) {
             menuIndex = 0;
             first = false;
         } 
 
-        audio.connecttoFS(SD_MMC, menuOptions[menuIndex].c_str());
-        // delay(50); // give user time to take their hand off of the button
-        while (audio.isRunning()) {
-            audio.loop();
+        device.audio.connecttoFS(SD_MMC, menuOptions[menuIndex].c_str());
+        delay(15); // delay 
+        while (device.audio.isRunning()) {
+            device.audio.loop();
         }
     }
 
@@ -148,12 +152,36 @@ void loop() {
 
         
         // gptInterface.GPT_Text_Speech_To_File(gpt_response);
-        gptInterface.GoogleTTS(gpt_response, "en");
+        device.GoogleTTS(gpt_response, "en");
       }
 
        // Volume
       if(menuIndex == 2) {
         Serial.println("Work in progress");
+        // Set a timer for 3 seconds that resets if no inputs are received
+        delay(500);
+        unsigned long timer = 10000;
+        unsigned long lastTime = millis();
+        unsigned long newTime = millis();
+        while(newTime - lastTime < timer) {
+          // Serial.println(newTime - lastTime);
+          newTime = millis();
+          if(touchRead(T14)>35000) {
+            device.increaseVolume();
+            delay(500);
+            newTime = millis();
+            lastTime = millis(); 
+          }
+          if(touchRead(T3)>35000) {
+            device.decreaseVolume();
+            delay(500);
+            newTime = millis();
+            lastTime = millis();
+          }
+          delay(10);
+        }
+        menuIndex = 0;
+        Serial.println("exited");
       }
 
       // BatteryLevel
