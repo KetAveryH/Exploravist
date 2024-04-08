@@ -147,7 +147,8 @@ void loop() {
         Serial.println(image_base64);
         
         
-        String gpt_response = gptInterface.anthropicImgResponse(gpt_prompt, image_base64);
+        String gpt_response = gptInterface.anthropicImgResponse(gpt_prompt, image_base64);   // Anthropic Haiku Response
+        // String gpt_response = gptInterface.getImgResponse(gpt_prompt, image_base64);  // GPT Response
         
         request_count = 0;
         // device.setBeep(1);
