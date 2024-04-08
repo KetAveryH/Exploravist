@@ -8,36 +8,33 @@
 #include <Arduino.h>
 #include "Audio.h"
 
-//#define CAMERA_MODEL_WROVER_KIT // ESP32 WROVER  | Has PSRAM
-// #define CAMERA_MODEL_AI_THINKER // ESP32-CAM    | Has PSRAM
+// #define CAMERA_MODEL_WROVER_KIT // ESP32 WROVER  | Has PSRAM
+//  #define CAMERA_MODEL_AI_THINKER // ESP32-CAM    | Has PSRAM
 
+class Esp32
+{
+public:
+    Esp32();
+    int getBeep();
+    void setBeep(int);
+    float readPercentage();
+    void playBatterySound(int percentage);
+    void GoogleTTS(String text, String lang);
+    void increaseVolume();
+    void decreaseVolume();
+    void playWAVFile(const String &filename);
+    Audio audio;
 
-class  Esp32 {
-    public:
-        Esp32();
-        int getBeep();
-        void setBeep(int);
-        float readPercentage();
-        void playBatterySound(int percentage);
-        void GoogleTTS(String text, String lang);
-        void increaseVolume();
-        void decreaseVolume();
-        void playWAVFile(const String &filename);
-        Audio audio;
-
-
-        // Implement getter and setter methods for the private variables below/
-    private:
-        
-        void playTextSegments(String text, String lang);
-        uint16_t read16(uint8_t reg);
-        int nearestMultipleOfFive(int percentage);
-        const char* ssid;
-        const char* password;
-        float systemVolume;
-        int beep;
-    };
-
+    // Implement getter and setter methods for the private variables below/
+private:
+    void playTextSegments(String text, String lang);
+    uint16_t read16(uint8_t reg);
+    int nearestMultipleOfFive(int percentage);
+    const char *ssid;
+    const char *password;
+    float systemVolume;
+    int beep;
+};
 
 void blinkNtimes(int numTimes, int spacing);
 
