@@ -16,10 +16,11 @@
 const char* _gpt_token = ""; // TODO: 
                                 // Need a better way to store gpt_token (be able to cycle through tokens securely)
                                 // a configuration file would be good to start
+const char* _anthropic_key = "";
 
 int _max_token = 75;
 
-GPTInterface::GPTInterface(const char* gpt_token) : _gpt_token(gpt_token) {}
+GPTInterface::GPTInterface(const char* gpt_token, const char* anthropic_key) : _gpt_token(gpt_token), _anthropic_key(anthropic_key) {}
 
 
 void GPTInterface::setMaxToken(int max_token) {
@@ -137,6 +138,29 @@ String GPTInterface::extractTextResponse(DynamicJsonDocument& doc) {
     return textResponse;
 }
 
+String GPTInterface::extractAnthropicResponse(DynamicJsonDocument& doc) {
+    String textResponse = "";
+
+    // Check if 'content' array exists and has at least one element
+    if (doc.containsKey("content") && doc["content"].is<JsonArray>() && !doc["content"].isNull()) {
+        JsonArray contentArray = doc["content"].as<JsonArray>();
+
+        // Iterate over the 'content' array to find an object with "type" == "text"
+        for (JsonObject content : contentArray) {
+            String type = content["type"].as<String>();
+            if (type == "text") {
+                // Assuming that you want to concatenate all text content types
+                textResponse += content["text"].as<String>();
+                // If you only want the first occurrence, uncomment the following line and remove the above line
+                // return content["text"].as<String>();
+                // Break after the first text type is found if only the first occurrence is needed
+                break;
+            }
+        }
+    }
+
+    return textResponse;
+}
 
 /**
  * Makes GPT API call on image + prompt pair, returning an image description.
@@ -166,6 +190,82 @@ String GPTInterface::getImgResponse(const String& gpt_prompt, const String& base
     
 }
 
+String JSON_Anthropic_Img_Payload(const String& gpt_prompt, const String& base64_image, int img_len) {
+    DynamicJsonDocument doc(2000 + img_len); // Ensure the size is enough to hold your entire JSON structure.
+    doc["model"] = "claude-3-haiku-20240307";
+    doc["max_tokens"] = 1024;
+    JsonArray messagesArray = doc.createNestedArray("messages");
+
+    JsonObject messageObject = messagesArray.createNestedObject();
+    messageObject["role"] = "user"; // Added missing semicolon
+    
+    JsonArray contentArray = messageObject.createNestedArray("content");
+    
+    JsonObject imageObject = contentArray.createNestedObject();
+    imageObject["type"] = "image";
+    
+    JsonObject sourceObject = imageObject.createNestedObject("source"); // Directly create "source" object in "image"
+    sourceObject["type"] = "base64";
+    sourceObject["media_type"] = "image/jpeg"; // Added missing semicolon
+    sourceObject["data"] = base64_image;
+
+    JsonObject promptObject = contentArray.createNestedObject();
+    promptObject["type"] = "text";
+    promptObject["text"] = gpt_prompt;
+
+    String payload; // Corrected variable name
+    serializeJson(doc, payload);
+
+    return payload;
+}
+
+
+String GPTInterface::Anthropic_img_request(const String& payload, const char* anthropic_key) {
+    HTTPClient http;
+    http.begin("https://api.anthropic.com/v1/messages");
+    http.addHeader("x-api-key", anthropic_key);
+    http.addHeader("anthropic-version", "2023-06-01");
+    http.addHeader("Content-Type", "application/json");
+
+    http.setTimeout(20000); // Adjust this value as needed
+
+    int httpResponseCode = http.POST(payload);
+
+    String response = "Error on response";
+    
+    if (httpResponseCode > 0) {
+      response = http.getString();
+      // Serial.println("API Response:");
+      // Serial.println(response);
+      } else {
+      Serial.print("Error on sending POST: ");
+      Serial.println(http.errorToString(httpResponseCode));
+      // We need to figure out a way to properly repeat HTTP request.
+      }
+    Serial.println(response);
+    http.end();
+    return response;
+}
+
+String GPTInterface::anthropicImgResponse(const String& gpt_prompt, const String& base64_image) {
+    String payload;
+    int image_len = base64_image.length();
+    payload = JSON_Anthropic_Img_Payload(gpt_prompt, base64_image, image_len); // puts gpt_prompt and base64_image into proper JSON format
+    String response = Anthropic_img_request(payload, _anthropic_key);
+
+    if (response == "Error on response") {
+        return "Sorry, there was an issue getting a text response.";
+    } else {
+        // Parse the JSON response
+        DynamicJsonDocument doc(1000 + response.length()); // Adjust the size according to your needs
+        deserializeJson(doc, response); // deserializes JSON
+
+        // Extract the text response
+        String textResponse = extractAnthropicResponse(doc);
+
+        return textResponse;
+    }
+}
 
 
 /**

@@ -42,7 +42,14 @@ Esp32::Esp32() {
     Wire.begin(2,48); // Initialize I2C
 };
 
+// Audio initializeAudio() {
+//   Audio audio;
+//   audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
+//   audio.setVolume(systemVolume); // 0...21
+// }
+
 void Esp32::playWAVFile(const String &filename) {
+
     delay(5);
     if (!audio.connecttoFS(SD_MMC, filename.c_str())) {
         Serial.println("Failed to connect to file system.");
@@ -131,6 +138,7 @@ void Esp32::playTextSegments(String text, String lang) {
 
     if (text.length() <= 200) {
         // If the text is shorter than 200 characters, play it directly.
+        delay(10);
         audio.connecttospeech(text.c_str(), lang.c_str());
         Serial.print("Attempting to read full text, no segments");
         while (audio.isRunning()) {

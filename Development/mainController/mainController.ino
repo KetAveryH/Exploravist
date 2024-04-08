@@ -48,7 +48,7 @@ const String gpt_prompt = "Please provide a description of this image suitable f
 int request_count = 0;
 
 WifiAccess wifiAccess(ssid, password); // Initialize WifiAccess object named "wifi"
-GPTInterface gptInterface(gpt_token);
+GPTInterface gptInterface(gpt_token, anthropic_key);
 Esp32 device;
 PlayerSpiffsI2S playerOut;
 Camera camera;
@@ -93,7 +93,7 @@ bool first = true;
 
 void loop() {
     
-    if (touchRead(T3)>35000) {
+    if (touchRead(T3)>35000 || first) {
         // listDir(SD_MMC,"/", 0);
         // delay(10);
         // device.playWAVFile("popClick.wav");
@@ -147,7 +147,7 @@ void loop() {
         Serial.println(image_base64);
         
         
-        String gpt_response = gptInterface.getImgResponse(gpt_prompt, image_base64);
+        String gpt_response = gptInterface.anthropicImgResponse(gpt_prompt, image_base64);
         
         request_count = 0;
         // device.setBeep(1);
