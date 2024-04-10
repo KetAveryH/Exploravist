@@ -4,7 +4,8 @@
 #include "gptInterface.h"
 #include "sd_read_write.h"
 #include "SD_MMC.h"   // new
-#include "AudioESP.h" // new
+
+#include "Audio.h" // new
 #include "PlayerSpiffsI2S.h"
 #include <driver/i2s.h>
 #include <Arduino.h>
@@ -52,7 +53,7 @@ GPTInterface gptInterface(gpt_token);
 Esp32 device;
 PlayerSpiffsI2S playerOut;
 Camera camera;
-AudioESP audio;
+Audio audio;
 
 void setup() {
     // Serial port for debugging purposes
