@@ -3,7 +3,7 @@ Our goal is to empower the visually impaired with tools that improve their indep
 
 We are providing this device as a low-cost alternative to devices like Orcam and Envision which are typically priced between $2500 to $3000+. Our current manufacturing cost lies at around $20-$30 which we are able to achieve due to our use of widely available consumer hardware in our electronics. We plan to provide similar functionality at a fraction of the cost!
 
-![Image of Device Version 2](/images/device.png "Exploravist Version 2")
+<img src="https://github.com/KetAveryH/Exploravist.git/main/images/device.png?raw=true"  alt="Exploravist Version 2" style="width: 50%; height: auto;">
 
 ## Team Organization:
 Currently we have a few sub-teams with some general goals:
