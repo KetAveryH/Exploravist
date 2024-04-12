@@ -134,7 +134,6 @@ String GPTInterface::GPT_img_request(const String &payload, const char *gpt_toke
         // We need to figure out a way to properly repeat HTTP request.
     }
 
-    http.end();
 
     return response;
 }
@@ -292,7 +291,6 @@ String GPTInterface::Anthropic_img_request(const String &payload, const char *an
         // We need to figure out a way to properly repeat HTTP request.
     }
     Serial.println(response);
-    http.end();
     return response;
 }
 
