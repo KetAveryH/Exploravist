@@ -39,10 +39,12 @@
 const String gpt_prompt = "Please provide a description of this image suitable for a blind or visually impaired individual. The photo is taken from a first-person perspective using a wearable device, intended to capture the wearer's viewpoint. Your description will be relayed through a speaker. Follow these guidelines for your response: Direct Pointing: If a finger points at something, describe what is being pointed at, focusing solely on this aspect. Finger Box: Text Reading: If text is enclosed within a hand-formed box, read it aloud. If the text is unclear, describe the visible part of the object where the text appears. No Text or Blurry: Describe what's inside the box, ignoring the surroundings. Hand Circle: If a circle is formed by the hand, provide a detailed yet concise description of the entire scene, aiming for aesthetic and practical value. General Scene: Absent any hand signals, offer a straightforward description of the scene, prioritizing likely points of interest. Provide a general overview thereafter. Image Quality Disclaimer: Disregard the camera's quality when responding, striving to provide the best possible description under any circumstances. If an aspect (like text) is too blurred to discern, describe its base object and suggest taking another photo if needed";
 
 // Copy the following below in to a Config.h fileand fill in the blank.
+
 // const char* ssid = ";
 // const char* password = "";
 // const char* gpt_token = "";
-//
+// const char* anthropic_key = "";
+
 
 int request_count = 0;
 
