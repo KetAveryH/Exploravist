@@ -5,5 +5,5 @@ build/
 *.ci
 *.old
 
-*Config.h
+**/Config.h
 ElevenLabs/output.mp3
