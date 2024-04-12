@@ -1,0 +1,1 @@
+# mainController folder contains code flashed onto the ESP32 !!
