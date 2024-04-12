@@ -1,6 +1,5 @@
 // GPTInterface.cpp
 #include "GPTInterface.h"
-#include <HTTPClient.h>
 #include "Audio.h"
 #include "Esp32.h"
 
@@ -20,12 +19,45 @@ const char *_anthropic_key = "";
 
 int _max_token = 75;
 
-GPTInterface::GPTInterface(const char *gpt_token, const char *anthropic_key) : _gpt_token(gpt_token), _anthropic_key(anthropic_key) {}
+void GPTInterface::beginGPT() {
+    if (model_select == 0) {
+        http.end();
+    }
+    http.begin("https://api.openai.com/v1/chat/completions"); // Your API endpoint
+    http.addHeader("Content-Type", "application/json");
+    http.addHeader("Authorization", "Bearer " + String(_gpt_token)); // Your API key
+
+    http.setTimeout(20000); // Adjust this value as needed
+    // Consider setting Keep-Alive header if not automatically handled by HTTPClient
+}
+
+void GPTInterface::beginANTHROPIC() {
+    if (model_select == 1) {
+        http.end();
+    }
+    http.begin("https://api.anthropic.com/v1/messages");
+    http.addHeader("x-api-key", _anthropic_key);
+    http.addHeader("anthropic-version", "2023-06-01");
+    http.addHeader("Content-Type", "application/json");
+
+    http.setTimeout(20000); // Adjust this value as needed
+}
+
+GPTInterface::GPTInterface(const char *gpt_token, const char *anthropic_key) : _gpt_token(gpt_token), _anthropic_key(anthropic_key) {
+  this->beginANTHROPIC();
+}
+
+GPTInterface::~GPTInterface() {
+    http.end(); // Ensure the connection is closed properly
+}
 
 void GPTInterface::setMaxToken(int max_token)
 {
     _max_token = max_token;
 }
+
+
+
 /**
  * HELPER FUNCTION to getImgResponse()
  *
@@ -77,13 +109,13 @@ String GPTInterface::GPT_img_request(const String &payload, const char *gpt_toke
 { //
     // Does the API Communication
 
-    pinMode(LED1, OUTPUT);
-    HTTPClient http;
-    http.begin("https://api.openai.com/v1/chat/completions"); // Your API endpoint
-    http.addHeader("Content-Type", "application/json");
-    http.addHeader("Authorization", "Bearer " + String(gpt_token)); // Your API key
+    // pinMode(LED1, OUTPUT);
+    // HTTPClient http;
+    // http.begin("https://api.openai.com/v1/chat/completions"); // Your API endpoint
+    // http.addHeader("Content-Type", "application/json");
+    // http.addHeader("Authorization", "Bearer " + String(gpt_token)); // Your API key
 
-    http.setTimeout(20000); // Adjust this value as needed
+    // http.setTimeout(20000); // Adjust this value as needed
 
     int httpResponseCode = http.POST(payload);
 
@@ -235,13 +267,13 @@ String JSON_Anthropic_Img_Payload(const String &gpt_prompt, const String &base64
 
 String GPTInterface::Anthropic_img_request(const String &payload, const char *anthropic_key)
 {
-    HTTPClient http;
-    http.begin("https://api.anthropic.com/v1/messages");
-    http.addHeader("x-api-key", anthropic_key);
-    http.addHeader("anthropic-version", "2023-06-01");
-    http.addHeader("Content-Type", "application/json");
+    // HTTPClient http;
+    // http.begin("https://api.anthropic.com/v1/messages");
+    // http.addHeader("x-api-key", anthropic_key);
+    // http.addHeader("anthropic-version", "2023-06-01");
+    // http.addHeader("Content-Type", "application/json");
 
-    http.setTimeout(20000); // Adjust this value as needed
+    // http.setTimeout(20000); // Adjust this value as needed
 
     int httpResponseCode = http.POST(payload);
 

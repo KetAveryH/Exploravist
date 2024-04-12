@@ -166,8 +166,12 @@ void loop()
 
             String gpt_response = "";
             if (model_selection == 0) {
+                gptInterface.model_select = 0;
+                gptInterface.beginANTHROPIC();
                 gpt_response = gptInterface.anthropicImgResponse(gpt_prompt, image_base64); // Anthropic Haiku Response
             } else {
+                gptInterface.model_select = 1;
+                gptInterface.beginGPT();
                 gpt_response = gptInterface.getImgResponse(gpt_prompt, image_base64);  // GPT Response
             }
             
