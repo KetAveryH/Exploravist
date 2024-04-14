@@ -23,6 +23,8 @@ public:
     void increaseVolume();
     void decreaseVolume();
     void playWAVFile(const String &filename);
+    int inputHandlerTapHold();
+    int inputHandlerDoubleTap();
     Audio audio;
 
     // Implement getter and setter methods for the private variables below/

@@ -48,6 +48,57 @@ Esp32::Esp32()
 //   audio.setVolume(systemVolume); // 0...21
 // }
 
+int Esp32::inputHandlerDoubleTap(){
+    //time threshold between double tap and single tap
+    return 1;
+}
+
+int Esp32::inputHandlerTapHold() {
+    // QUESTIONS I HAVE: what is the tap_hold.ino code again?
+
+    int tapThreshold = 2;
+    int holdThreshold = 5;
+    //Setting up variables
+    auto startTime = std::chrono::steady_clock::now();
+
+    int prev_value = touchRead(T14);
+    // continuously poll the difference
+    while (true) {
+        // sleep for some time 
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        // current_value
+        int curr_value = touchRead(T14);
+        // difference
+        int difference = curr_value - prev_value;
+        if (difference > 30000) { //FIX ME: Change number
+            startTime = std::chrono::steady_clock::now();
+        }
+        while (difference > 2) {
+            continue
+        }
+        //end of tap/hold
+        auto endTime = std::chrono::steady_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
+
+        /*
+        if duration >= tap threshold and <= holdthreshold: tap = 1
+        else if duration >= hold threshold: hold = 0 
+        */
+       if (duration >= tapThreshold && duration <= holdThreshold) {
+        return 1;
+       }
+       else {
+        return 0;
+       }
+
+        //std::cout << "Difference" << difference << endl;
+        prev_value = curr_value;
+    }
+
+    return 2;
+}
+
+
 void Esp32::playWAVFile(const String &filename)
 {
 
