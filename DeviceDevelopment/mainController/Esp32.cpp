@@ -54,10 +54,9 @@ int Esp32::inputHandlerDoubleTap(){
 }
 
 int Esp32::inputHandlerTapHold() {
-    // QUESTIONS I HAVE: what is the tap_hold.ino code again?
 
-    int tapThreshold = 2;
-    int holdThreshold = 5;
+    int tapThreshold;
+    int holdThreshold = 300;
     //Setting up variables
     auto startTime = std::chrono::steady_clock::now();
 
@@ -70,27 +69,20 @@ int Esp32::inputHandlerTapHold() {
         int curr_value = touchRead(T14);
         // difference
         int difference = curr_value - prev_value;
-        if (difference > 30000) { //FIX ME: Change number
+        if (difference > 30000) { 
             startTime = std::chrono::steady_clock::now();
         }
-        while (difference > 2) {
-            continue
+        while (difference > 30000) {
+            continue;
         }
         //end of tap/hold
         auto endTime = std::chrono::steady_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
-
-        /*
-        if duration >= tap threshold and <= holdthreshold: tap = 1
-        else if duration >= hold threshold: hold = 0 
-        */
-       if (duration >= tapThreshold && duration <= holdThreshold) {
-        return 1;
-       }
-       else {
-        return 0;
-       }
-
+        if (duration <= holdThreshold) {
+            return 1;
+        } else {
+            return 0;
+        }
         //std::cout << "Difference" << difference << endl;
         prev_value = curr_value;
     }
