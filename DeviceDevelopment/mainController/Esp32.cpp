@@ -58,36 +58,42 @@ int Esp32::inputHandlerTapHold() {
     int tapThreshold;
     int holdThreshold = 300;
     //Setting up variables
-    auto startTime = std::chrono::steady_clock::now();
+    // auto startTime = std::chrono::steady_clock::now();
+    auto startTime;
+    int difference;
 
     int prev_value = touchRead(T14);
+    delay(50);
     // continuously poll the difference
     while (true) {
         // sleep for some time 
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+        // std::this_thread::sleep_for(std::chrono::seconds(1));
         // current_value
+        
         int curr_value = touchRead(T14);
         // difference
-        int difference = curr_value - prev_value;
+        difference = curr_value - prev_value;
         if (difference > 30000) { 
-            startTime = std::chrono::steady_clock::now();
-        }
-        while (difference > 30000) {
-            continue;
-        }
-        //end of tap/hold
-        auto endTime = std::chrono::steady_clock::now();
-        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
-        if (duration <= holdThreshold) {
-            return 1;
-        } else {
-            return 0;
+            startTime = millis();
+            while (abs(difference) <= 30000) {
+                prev_value = curr_value;
+                delay(50);
+                difference = touchRead(T14) - prev_value;
+                continue;
+            }
+            //end of tap/hold
+            auto endTime = millis() - startTime;
+            
+            if (endTime <= holdThreshold) {
+                return 1; // Tap
+            } else {
+                return 0; // Hold
+            }
         }
         //std::cout << "Difference" << difference << endl;
+        delay(50);
         prev_value = curr_value;
     }
-
-    return 2;
 }
 
 
