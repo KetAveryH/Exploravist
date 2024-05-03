@@ -19,6 +19,10 @@ public:
     String anthropicImgResponse(const String &gpt_prompt, const String &base64_image);
     String Gemini_Request(const String &payload, const char *gemini_key);
     void GPT_Text_Speech_To_File(const String &gpt_response);
+    String extractGeminiTextResponse(const String &response);
+
+    String JSON_Gemini_Payload(const String &role, const String &text, const String &fileMimeType, const String &fileUri);
+    
     // void GoogleTTS(String text, String lang);
     // void playTextSegments(String text, String lang);
     void setMaxToken(int max_token);
@@ -43,9 +47,6 @@ private:
     String GPT_img_request(const String &payload, const char *gpt_token);
     String Anthropic_img_request(const String &payload, const char *anthropic_key);
     String extractAnthropicResponse(DynamicJsonDocument &doc);
-    String extractGeminiTextResponse(const String &response);
-
-    String JSON_Gemini_Payload(const String &role, const String &text, const String &fileMimeType, const String &fileUri);
     
 };
 

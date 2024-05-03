@@ -183,8 +183,14 @@ void loop()
             } else {
                 
                 gptInterface.model_select = 1;
-                gptInterface.beginGPT();
-                gpt_response = gptInterface.getImgResponse(gpt_prompt, image_base64);  // GPT Response
+                gptInterface.beginGEMINI();
+                String role = "user";
+                String text = "Sample text for Gemini Pro Vision model";
+                String fileMimeType = "image/jpeg";
+                String fileUri = "";
+
+                String payload = gptInterface.JSON_Gemini_Payload(role, text, fileMimeType, fileUri);
+                gpt_response = gptInterface.Gemini_Request(payload, gemini_key);
             }
             
             
