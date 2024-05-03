@@ -59,10 +59,10 @@ int Esp32::inputHandlerTapHold() {
     int holdThreshold = 300;
     //Setting up variables
     // auto startTime = std::chrono::steady_clock::now();
-    auto startTime;
+    int startTime;
     int difference;
 
-    int prev_value = touchRead(T14);
+    int prev_value = touchRead(T3);
     delay(50);
     // continuously poll the difference
     while (true) {
@@ -70,7 +70,7 @@ int Esp32::inputHandlerTapHold() {
         // std::this_thread::sleep_for(std::chrono::seconds(1));
         // current_value
         
-        int curr_value = touchRead(T14);
+        int curr_value = touchRead(T3);
         // difference
         difference = curr_value - prev_value;
         if (difference > 30000) { 
@@ -78,7 +78,7 @@ int Esp32::inputHandlerTapHold() {
             while (abs(difference) <= 30000) {
                 prev_value = curr_value;
                 delay(50);
-                difference = touchRead(T14) - prev_value;
+                difference = touchRead(T3) - prev_value;
                 continue;
             }
             //end of tap/hold

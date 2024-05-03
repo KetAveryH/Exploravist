@@ -36,8 +36,8 @@
 #define I2S_PORT I2S_NUM_0
 
 // const String gpt_prompt = "Can you please describe what you see in front of you as if you were describing it to a blind individual? Please make your response as concise as possible. Do not describe the lighting of the image. do not mention low image quality. Do not mention color. Focus on objects in the scene.";
-const String gpt_prompt = "Please provide a description of this image suitable for a blind or visually impaired individual. The photo is taken from a first-person perspective using a wearable device, intended to capture the wearer's viewpoint. Your description will be relayed through a speaker. Follow these guidelines for your response: Direct Pointing: If a finger points at something, describe what is being pointed at, focusing solely on this aspect. Finger Box: Text Reading: If text is enclosed within a hand-formed box, read it aloud. If the text is unclear, describe the visible part of the object where the text appears. No Text or Blurry: Describe what's inside the box, ignoring the surroundings. Hand Circle: If a circle is formed by the hand, provide a detailed yet concise description of the entire scene, aiming for aesthetic and practical value. General Scene: Absent any hand signals, offer a straightforward description of the scene, prioritizing likely points of interest. Provide a general overview thereafter. Image Quality Disclaimer: Disregard the camera's quality when responding, striving to provide the best possible description under any circumstances. If an aspect (like text) is too blurred to discern, describe its base object and suggest taking another photo if needed";
-
+// const String gpt_prompt = "Please provide a description of this image suitable for a blind or visually impaired individual. The photo is taken from a first-person perspective using a wearable device, intended to capture the wearer's viewpoint. Your description will be relayed through a speaker. Follow these guidelines for your response: Direct Pointing: If a finger points at something, describe what is being pointed at, focusing solely on this aspect. Finger Box: Text Reading: If text is enclosed within a hand-formed box, read it aloud. If the text is unclear, describe the visible part of the object where the text appears. No Text or Blurry: Describe what's inside the box, ignoring the surroundings. Hand Circle: If a circle is formed by the hand, provide a detailed yet concise description of the entire scene, aiming for aesthetic and practical value. General Scene: Absent any hand signals, offer a straightforward description of the scene, prioritizing likely points of interest. Provide a general overview thereafter. Image Quality Disclaimer: Disregard the camera's quality when responding, striving to provide the best possible description under any circumstances. If an aspect (like text) is too blurred to discern, describe its base object and suggest taking another photo if needed";
+const String gpt_prompt = "Please provide a description of this image suitable for a blind or visually impaired individual. Try to remain as concise as possible and outline any larger key features by listing out objects seen. If you see any text please try to read out the text first before saying anything.  do not mention the quality of the image, and do not make a followup remark about how you have completed your task. When you are done make it concise and don't say anything more.";
 // Copy the following below in to a Config.h fileand fill in the blank.
 
 // const char* ssid = ";
@@ -49,7 +49,7 @@ const String gpt_prompt = "Please provide a description of this image suitable f
 int request_count = 0;
 
 WifiAccess wifiAccess(ssid, password); // Initialize WifiAccess object named "wifi"
-GPTInterface gptInterface(gpt_token, anthropic_key);
+GPTInterface gptInterface(gpt_token, anthropic_key, gemini_key);
 Esp32 device;
 PlayerSpiffsI2S playerOut;
 Camera camera;
@@ -102,7 +102,16 @@ bool first = true;
 
 void loop()
 {
+    // int tap;
+    // if (device.inputHandlerTapHold() == 1) {
+      // tap = 1;
+    // } else {
+      // we held, send us back to the first menu
+      // first == true;
+    // }
 
+
+    // if (tap || first)
     if (touchRead(T3) > 35000 || first)
     {
         // listDir(SD_MMC,"/", 0);
@@ -172,6 +181,7 @@ void loop()
                 gptInterface.beginANTHROPIC();
                 gpt_response = gptInterface.anthropicImgResponse(gpt_prompt, image_base64); // Anthropic Haiku Response
             } else {
+                
                 gptInterface.model_select = 1;
                 gptInterface.beginGPT();
                 gpt_response = gptInterface.getImgResponse(gpt_prompt, image_base64);  // GPT Response

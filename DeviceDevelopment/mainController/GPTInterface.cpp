@@ -17,7 +17,11 @@ const char *_gpt_token = ""; // TODO:
                              // a configuration file would be good to start
 const char *_anthropic_key = "";
 
+const char *_gemini_key = "";
+
 int _max_token = 75;
+
+HTTPClient http;
 
 void GPTInterface::beginGPT() {
     if (model_select == 0) {
@@ -43,7 +47,16 @@ void GPTInterface::beginANTHROPIC() {
     http.setTimeout(20000); // Adjust this value as needed
 }
 
-GPTInterface::GPTInterface(const char *gpt_token, const char *anthropic_key) : _gpt_token(gpt_token), _anthropic_key(anthropic_key) {
+void GPTInterface::beginGEMINI() {
+    if (model_select == 0) {
+        http.end();
+    }
+    http.begin("https://us-west4-aiplatform.googleapis.com/v1/projects/exploravist/locations/us-west4/publishers/google/models/gemini-1.0-pro-vision:streamGenerateContent");
+    http.addHeader("Content-Type", "application/json");
+    http.setTimeout(20000); // Adjust this value as needed
+}
+
+GPTInterface::GPTInterface(const char *gpt_token, const char *anthropic_key, const char *gemini_key) : _gpt_token(gpt_token), _anthropic_key(anthropic_key), _gemini_key(gemini_key) {
   this->beginANTHROPIC();
 }
 
@@ -316,6 +329,69 @@ String GPTInterface::anthropicImgResponse(const String &gpt_prompt, const String
 
         return textResponse;
     }
+}
+
+// Function to prepare JSON payload for Gemini Pro Vision model
+String JSON_Gemini_Payload(const String &role, const String &text, const String &fileMimeType, const String &fileUri) {
+    DynamicJsonDocument doc(4000);
+
+    JsonArray contentsArray = doc.createNestedArray("contents");
+    JsonObject contentObject = contentsArray.createNestedObject();
+    contentObject["role"] = role;
+
+    JsonArray partsArray = contentObject.createNestedArray("parts");
+    JsonObject partObject = partsArray.createNestedObject();
+    partObject["text"] = text;
+
+    JsonObject fileDataObject = partObject.createNestedObject("fileData");
+    fileDataObject["mimeType"] = fileMimeType;
+    fileDataObject["fileUri"] = fileUri;
+
+    String payload;
+    serializeJson(doc, payload);
+
+    return payload;
+}
+
+// Function to make HTTP POST request to Gemini Pro Vision model
+String Gemini_Request(const String &payload, const char *gemini_key) {    
+
+    int httpResponseCode = http.POST(payload);
+
+    String response = "Error on response";
+
+    if (httpResponseCode > 0) {
+        response = http.getString();
+    } else {
+        Serial.print("Error on sending POST: ");
+        Serial.println(http.errorToString(httpResponseCode));
+    }
+
+    http.end();
+    return response;
+}
+
+// Function to extract text response from Gemini Pro Vision API response
+String extractGeminiTextResponse(const String &response) {
+    String textResponse = "";
+
+    DynamicJsonDocument doc(2000); // Adjust the size according to your needs
+    deserializeJson(doc, response);
+
+    if (doc.containsKey("candidates") && doc["candidates"].is<JsonArray>()) {
+        JsonArray candidates = doc["candidates"].as<JsonArray>();
+        if (candidates.size() > 0) {
+            JsonObject candidate = candidates[0].as<JsonObject>();
+            if (candidate.containsKey("content") && candidate["content"].containsKey("parts") && candidate["content"]["parts"].is<JsonArray>()) {
+                JsonArray parts = candidate["content"]["parts"].as<JsonArray>();
+                if (parts.size() > 0 && parts[0].containsKey("text")) {
+                    textResponse = parts[0]["text"].as<String>();
+                }
+            }
+        }
+    }
+
+    return textResponse;
 }
 
 /**
