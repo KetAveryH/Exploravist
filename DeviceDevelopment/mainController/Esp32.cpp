@@ -48,53 +48,53 @@ Esp32::Esp32()
 //   audio.setVolume(systemVolume); // 0...21
 // }
 
-int Esp32::inputHandlerDoubleTap(){
-    //time threshold between double tap and single tap
-    return 1;
-}
+// int Esp32::inputHandlerDoubleTap(){
+//     //time threshold between double tap and single tap
+//     return 1;
+// }
 
-int Esp32::inputHandlerTapHold() {
+// int Esp32::inputHandlerTapHold() {
 
-    int tapThreshold;
-    int holdThreshold = 300;
-    //Setting up variables
-    // auto startTime = std::chrono::steady_clock::now();
-    int startTime;
-    int difference;
+//     int tapThreshold;
+//     int holdThreshold = 300;
+//     //Setting up variables
+//     // auto startTime = std::chrono::steady_clock::now();
+//     auto startTime;
+//     int difference;
 
-    int prev_value = touchRead(T3);
-    delay(50);
-    // continuously poll the difference
-    while (true) {
-        // sleep for some time 
-        // std::this_thread::sleep_for(std::chrono::seconds(1));
-        // current_value
+//     int prev_value = touchRead(T14);
+//     delay(50);
+//     // continuously poll the difference
+//     while (true) {
+//         // sleep for some time 
+//         // std::this_thread::sleep_for(std::chrono::seconds(1));
+//         // current_value
         
-        int curr_value = touchRead(T3);
-        // difference
-        difference = curr_value - prev_value;
-        if (difference > 30000) { 
-            startTime = millis();
-            while (abs(difference) <= 30000) {
-                prev_value = curr_value;
-                delay(50);
-                difference = touchRead(T3) - prev_value;
-                continue;
-            }
-            //end of tap/hold
-            auto endTime = millis() - startTime;
+//         int curr_value = touchRead(T14);
+//         // difference
+//         difference = curr_value - prev_value;
+//         if (difference > 30000) { 
+//             startTime = millis();
+//             while (abs(difference) <= 30000) {
+//                 prev_value = curr_value;
+//                 delay(50);
+//                 difference = touchRead(T14) - prev_value;
+//                 continue;
+//             }
+//             //end of tap/hold
+//             auto endTime = millis() - startTime;
             
-            if (endTime <= holdThreshold) {
-                return 1; // Tap
-            } else {
-                return 0; // Hold
-            }
-        }
-        //std::cout << "Difference" << difference << endl;
-        delay(50);
-        prev_value = curr_value;
-    }
-}
+//             if (endTime <= holdThreshold) {
+//                 return 1; // Tap
+//             } else {
+//                 return 0; // Hold
+//             }
+//         }
+//         //std::cout << "Difference" << difference << endl;
+//         delay(50);
+//         prev_value = curr_value;
+//     }
+// }
 
 
 void Esp32::playWAVFile(const String &filename)
