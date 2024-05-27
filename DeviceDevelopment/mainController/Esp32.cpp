@@ -34,7 +34,6 @@ Esp32::Esp32()
     ssid = "";
     password = "";
     systemVolume = 12;
-    beep = 0;
 
     audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
     audio.setVolume(systemVolume); // 0...21

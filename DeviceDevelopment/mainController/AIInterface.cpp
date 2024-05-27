@@ -1,4 +1,4 @@
-// GPTInterface.cpp
+// AIInterface.cpp
 #include "GPTInterface.h"
 #include "Audio.h"
 #include "Esp32.h"
@@ -19,7 +19,7 @@ const char *_anthropic_key = "";
 
 int _max_token = 75;
 
-void GPTInterface::beginGPT() {
+void AIInterface::beginGPT() {
     if (model_select == 0) {
         http.end();
     }
@@ -31,7 +31,7 @@ void GPTInterface::beginGPT() {
     // Consider setting Keep-Alive header if not automatically handled by HTTPClient
 }
 
-void GPTInterface::beginANTHROPIC() {
+void AIInterface::beginANTHROPIC() {
     if (model_select == 1) {
         http.end();
     }
@@ -43,15 +43,15 @@ void GPTInterface::beginANTHROPIC() {
     http.setTimeout(20000); // Adjust this value as needed
 }
 
-GPTInterface::GPTInterface(const char *gpt_token, const char *anthropic_key) : _gpt_token(gpt_token), _anthropic_key(anthropic_key) {
+AIInterface::AIInterface(const char *gpt_token, const char *anthropic_key) : _gpt_token(gpt_token), _anthropic_key(anthropic_key) {
   this->beginANTHROPIC();
 }
 
-GPTInterface::~GPTInterface() {
+AIInterface::~AIInterface() {
     http.end(); // Ensure the connection is closed properly
 }
 
-void GPTInterface::setMaxToken(int max_token)
+void AIInterface::setMaxToken(int max_token)
 {
     _max_token = max_token;
 }
@@ -66,7 +66,7 @@ void GPTInterface::setMaxToken(int max_token)
  * @param Inputs a gpt_prompt + base64 image
  * @return returns payload in JSON format.
  */
-String GPTInterface::JSON_Img_Payload(const String &gpt_prompt, const String &base64_image, int img_len)
+String AIInterface::JSON_Img_Payload(const String &gpt_prompt, const String &base64_image, int img_len)
 {
     DynamicJsonDocument doc(2000 + img_len); // Adjust the size to suit your needs
     // TODO: Create a function that dynamically sets doc parameter based on image size.
@@ -105,7 +105,7 @@ String GPTInterface::JSON_Img_Payload(const String &gpt_prompt, const String &ba
  * @param Inputs a JSON payload with the image and prompt inside
  * @return JSON payload of API response.
  */
-String GPTInterface::GPT_img_request(const String &payload, const char *gpt_token)
+String AIInterface::GPT_img_request(const String &payload, const char *gpt_token)
 { //
     // Does the API Communication
 
@@ -146,7 +146,7 @@ String GPTInterface::GPT_img_request(const String &payload, const char *gpt_toke
  * @param Inputs A GPT API response as a DynamicJsonDocument document
  * @return String, extracted GPT API text response
  */
-String GPTInterface::extractTextResponse(DynamicJsonDocument &doc)
+String AIInterface::extractTextResponse(DynamicJsonDocument &doc)
 {
     String textResponse;
 
@@ -181,7 +181,7 @@ String GPTInterface::extractTextResponse(DynamicJsonDocument &doc)
  * @param Inputs  a gpt_prompt and a base_64 encoded image
  * @return String, GPT API image description
  */
-String GPTInterface::getImgResponse(const String &gpt_prompt, const String &base64_image)
+String AIInterface::gptImgResponse(const String &gpt_prompt, const String &base64_image)
 {
     String payload;
     int image_len = base64_image.length();
@@ -206,7 +206,7 @@ String GPTInterface::getImgResponse(const String &gpt_prompt, const String &base
     }
 }
 
-String GPTInterface::extractAnthropicResponse(DynamicJsonDocument &doc)
+String AIInterface::extractAnthropicResponse(DynamicJsonDocument &doc)
 {
     String textResponse = "";
 
@@ -264,7 +264,7 @@ String JSON_Anthropic_Img_Payload(const String &gpt_prompt, const String &base64
     return payload;
 }
 
-String GPTInterface::Anthropic_img_request(const String &payload, const char *anthropic_key)
+String AIInterface::Anthropic_img_request(const String &payload, const char *anthropic_key)
 {
     // HTTPClient http;
     // http.begin("https://api.anthropic.com/v1/messages");
@@ -294,7 +294,7 @@ String GPTInterface::Anthropic_img_request(const String &payload, const char *an
     return response;
 }
 
-String GPTInterface::anthropicImgResponse(const String &gpt_prompt, const String &base64_image)
+String AIInterface::anthropicImgResponse(const String &gpt_prompt, const String &base64_image)
 {
     String payload;
     int image_len = base64_image.length();
@@ -327,7 +327,7 @@ String GPTInterface::anthropicImgResponse(const String &gpt_prompt, const String
  * @param Inputs a GPT text response
  * @return A JSON payload as a string for the Whisper TTS API call
  */
-String GPTInterface::JSON_Text_Speech(const String &gpt_response)
+String AIInterface::JSON_Text_Speech(const String &gpt_response)
 {
     DynamicJsonDocument doc(50000); // Adjust the size to suit your needs
     // TODO: Create a function that dynamically sets doc parameter based on image size.
@@ -352,7 +352,7 @@ String GPTInterface::JSON_Text_Speech(const String &gpt_response)
  * @param Inputs  a GPT text API response as a const String&.
  * @note Stores all Text-To-Speech outputs to SPIFFS as an .mp3 file
  */
-void GPTInterface::GPT_Text_Speech_To_File(const String &gpt_response)
+void AIInterface::GPT_Text_Speech_To_File(const String &gpt_response)
 {
     HTTPClient http;
     http.begin("https://api.openai.com/v1/audio/speech");            // Your API endpoint

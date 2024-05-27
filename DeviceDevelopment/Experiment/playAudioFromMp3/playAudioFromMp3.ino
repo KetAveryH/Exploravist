@@ -64,9 +64,9 @@ const char* gpt_token = "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";
 
 WifiAccess wifiAccess(ssid, password); // Initialize WifiAccess object named "wifi"
 
-GPTInterface gptInterface(gpt_token);
+AIInterface aiInterface(gpt_token);
 
-String gpt_audio = gptInterface.getTextSpeech("hello, I am ready to assist you!");
+String gpt_audio = aiInterface.getTextSpeech("hello, I am ready to assist you!");
 String mp3Data = gpt_audio;
 StringStream mp3Stream(mp3Data);
 

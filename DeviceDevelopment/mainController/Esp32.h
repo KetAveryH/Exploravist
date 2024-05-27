@@ -15,16 +15,14 @@ class Esp32
 {
 public:
     Esp32();
-    int getBeep();
-    void setBeep(int);
     float readPercentage();
     void playBatterySound(int percentage);
     void GoogleTTS(String text, String lang);
     void increaseVolume();
     void decreaseVolume();
     void playWAVFile(const String &filename);
-    int inputHandlerTapHold();
-    int inputHandlerDoubleTap();
+    // int inputHandlerTapHold();
+    // int inputHandlerDoubleTap();
     Audio audio;
 
     // Implement getter and setter methods for the private variables below/
@@ -35,9 +33,14 @@ private:
     const char *ssid;
     const char *password;
     float systemVolume;
-    int beep;
 };
 
 void blinkNtimes(int numTimes, int spacing);
 
 #endif // ESP32_H
+
+
+// ESP32 Class:
+// InitializeDevice : Will call camera, AI token, and wifi initializations
+// Make AI Request : 
+//

@@ -5,10 +5,10 @@
 
 
 
-class GPTInterface {
+class AIInterface {
 public:
-    GPTInterface(const char* gpt_token); // Constructor
-    String getImgResponse(const String& gpt_prompt, const String& base64_image); // Method to get response from GPT
+    AIInterface(const char* gpt_token); // Constructor
+    String gptImgResponse(const String& gpt_prompt, const String& base64_image); // Method to get response from GPT
     String parseResponse(String& response); // Method to parse the response
     String getParsedResponse(const String& gpt_prompt, const String& base64_image);
 

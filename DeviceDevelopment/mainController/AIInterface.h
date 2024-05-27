@@ -8,19 +8,19 @@
 #include <FS.h>
 #include <ArduinoJson.h>
 
-class GPTInterface
+class AIInterface
 {
 public:
-    GPTInterface(const char *gpt_token, const char *anthropic_key);    // Constructor
+    AIInterface(const char *gpt_token, const char *anthropic_key);    // Constructor
     void beginGPT(); // Initialize the GPT HTTP client          
     void beginANTHROPIC(); // Initialize the Anthropic HTTP client    
-    String getImgResponse(const String &gpt_prompt, const String &base64_image); // Method to get response from GPT
+    String gptImgResponse(const String &gpt_prompt, const String &base64_image); // Method to get response from GPT
     String anthropicImgResponse(const String &gpt_prompt, const String &base64_image);
     void GPT_Text_Speech_To_File(const String &gpt_response);
     // void GoogleTTS(String text, String lang);
     // void playTextSegments(String text, String lang);
     void setMaxToken(int max_token);
-    ~GPTInterface(); // Destructor to clean up
+    ~AIInterface(); // Destructor to clean up
     int model_select = 0;
 
 private:

@@ -1,4 +1,4 @@
-// GPTInterface.cpp
+// AIInterface.cpp
 #include "GPTInterface.h"
 #include <ArduinoJson.h>
 #include <HTTPClient.h>
@@ -11,9 +11,9 @@ const char* _gpt_token = ""; // TODO:
                                 // a configuration file would be good to start
 
 
-GPTInterface::GPTInterface(const char* gpt_token) : _gpt_token(gpt_token) {}
+AIInterface::AIInterface(const char* gpt_token) : _gpt_token(gpt_token) {}
 
-String GPTInterface::JSON_Img_Payload(const String& gpt_prompt, const String& base64_image) {
+String AIInterface::JSON_Img_Payload(const String& gpt_prompt, const String& base64_image) {
 
     DynamicJsonDocument doc(50000); // Adjust the size to suit your needs
     // TODO: Create a function that dynamically sets doc parameter based on image size.
@@ -44,7 +44,7 @@ String GPTInterface::JSON_Img_Payload(const String& gpt_prompt, const String& ba
     return payload;
 }
 
-String GPTInterface::JSON_Text_Speech(const String& gpt_response) {
+String AIInterface::JSON_Text_Speech(const String& gpt_response) {
     DynamicJsonDocument doc(50000); // Adjust the size to suit your needs
     // TODO: Create a function that dynamically sets doc parameter based on image size.
 
@@ -65,7 +65,7 @@ String GPTInterface::JSON_Text_Speech(const String& gpt_response) {
     
 }
 
-String GPTInterface::gptTextSpeech(const String& payload, const char* gpt_token) {
+String AIInterface::gptTextSpeech(const String& payload, const char* gpt_token) {
      // Does the API Communication 
       HTTPClient http;
       http.begin("https://api.openai.com/v1/audio/speech"); // Your API endpoint
@@ -97,7 +97,7 @@ String GPTInterface::gptTextSpeech(const String& payload, const char* gpt_token)
 
 
 
-String GPTInterface::GPT_img_request(const String& payload, const char* gpt_token) { // 
+String AIInterface::GPT_img_request(const String& payload, const char* gpt_token) { // 
       // Does the API Communication 
       HTTPClient http;
       http.begin("https://api.openai.com/v1/chat/completions"); // Your API endpoint
@@ -122,7 +122,7 @@ String GPTInterface::GPT_img_request(const String& payload, const char* gpt_toke
     return response;
 }
 
-String GPTInterface::getImgResponse(const String& gpt_prompt, const String& base64_image) {
+String AIInterface::gptImgResponse(const String& gpt_prompt, const String& base64_image) {
     // TODO:
     // call Json_payload, feed out paylaod into gpt_request
     // parse output and return
@@ -131,7 +131,7 @@ String GPTInterface::getImgResponse(const String& gpt_prompt, const String& base
     return GPT_img_request(payload, _gpt_token);
 }
 
-String GPTInterface::getTextSpeech(const String& gpt_response) {
+String AIInterface::getTextSpeech(const String& gpt_response) {
     // TODO:
     // call Json_payload, feed out paylaod into gpt_request
     // parse output and return
