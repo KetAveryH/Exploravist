@@ -52,15 +52,15 @@ class StringStream : public Stream {
 
 
 
-URLStream url("Linksys3000","jass loves lynxlee"); // Not needed for now
+URLStream url("",""); // Not needed for now
 I2SStream i2s; // final output of decoded stream
 EncodedAudioStream dec(&i2s, new MP3DecoderHelix()); // Decoding stream
 
 
 
-const char* ssid = "Linksys3000";
-const char* password = "jass loves lynxlee";
-const char* gpt_token = "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";
+const char* ssid = "";
+const char* password = "";
+const char* gpt_token = "";
 
 WifiAccess wifiAccess(ssid, password); // Initialize WifiAccess object named "wifi"
 
