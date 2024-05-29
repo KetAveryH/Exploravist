@@ -1,5 +1,5 @@
 // AIInterface.cpp
-#include "GPTInterface.h"
+#include "AIInterface.h"
 #include "Audio.h"
 #include "Esp32.h"
 

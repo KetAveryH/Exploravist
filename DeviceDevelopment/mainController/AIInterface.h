@@ -1,5 +1,5 @@
-#ifndef GPT_INTERFACE_H
-#define GPT_INTERFACE_H
+#ifndef AI_INTERFACE_H
+#define AI_INTERFACE_H
 
 #include <Arduino.h>
 #include "SD_MMC.h"
@@ -42,4 +42,4 @@ private:
     String extractAnthropicResponse(DynamicJsonDocument &doc);
 };
 
-#endif // GPT_INTERFACE_H
+#endif // AI_INTERFACE_H

@@ -52,10 +52,11 @@ int subMenuIndex = 0;
 int model_selection = 0;
 String subMenuOptions[] = {"AnthropicVision.wav", "GPTVision.wav"};
 
-void setttingsMenu(){
-    unsigned long timer = 3000;
-    unsigned long lastTime = millis();
-    unsigned long newTime = millis();
+unsigned long timer = 3000;
+unsigned long lastTime = millis();
+unsigned long newTime = millis();
+
+void settingsMenu() {    
     device.playWAVFile(subMenuOptions[subMenuIndex]);
     while (newTime - lastTime < timer)
     {
@@ -68,12 +69,12 @@ void setttingsMenu(){
             aiInterface.model_select = subMenuIndex;
 
             // Initialize HTTP connection  // Note: As of now whenever you enter this menu the HTTP connection is re-established. behavior unknown
-            if (subMenuIndex == 0):
-                aiInterface.beginAnthropic();  
-            else:
+            if (subMenuIndex == 0) {
+                aiInterface.beginANTHROPIC();  
+            }
+            else {
                 aiInterface.beginGPT();
-
-            break;
+            }
         }
         if (touchRead(T3) > 35000) // Scroll button
         {
@@ -92,14 +93,17 @@ void setttingsMenu(){
         delay(10);
     }
 }
-void aiCall(model_selection) {
+
+
+
+void aiCall(int model_selection){
     wifiAccess.isConnected();
     String image_base64 = camera.capture_base64();
 
     if (image_base64.length() == 0)
     {
         Serial.println("Failed to capture or encode photo.");
-        return;
+        // return;
     }
 
 
@@ -112,7 +116,6 @@ void aiCall(model_selection) {
         aiInterface.model_select = 1;
         ai_response = aiInterface.gptImgResponse(ai_prompt, image_base64);  // GPT Response
     }
-    
 
 
 
@@ -121,6 +124,7 @@ void aiCall(model_selection) {
     device.GoogleTTS(ai_response, "en");                                     
     menuIndex = 0;
 }
+
 void volumeMenu() {
     delay(200);
     unsigned long timer = 3000;
@@ -207,26 +211,37 @@ void loop()
 
         switch (menuIndex) {
             case 0: // Short Description
-                aiInterface.setMaxToken(75);
-                aiCall(model_selection);
-                break;
+                {
+                    aiInterface.setMaxToken(75);
+                    aiCall(model_selection);
+                    break;
+                }
+                
             case 1: // Long Description
-                aiInterface.setMaxToken(150);
-                aiCall(model_selection);
-                break;
+                {
+                    aiInterface.setMaxToken(150);
+                    aiCall(model_selection);
+                    break;                    
+                }
             case 2: // Volume Settings
-                volumeMenu();
-                break;
+                {
+                    volumeMenu();
+                    break;
+                }
             case 3: // Battery Level
-                int percentage = device.readPercentage();
-                Serial.print("Battery Percentage: ");
-                Serial.println(percentage);
-                device.playBatterySound(percentage);
-                menuIndex = 0;
-                break;
+                {
+                    int percentage = device.readPercentage();
+                    Serial.print("Battery Percentage: ");
+                    Serial.println(percentage);
+                    device.playBatterySound(percentage);
+                    menuIndex = 0;
+                    break;
+                }
             case 4: // Settings Menu
-                settingsMenu();
-                break;
+                {
+                    settingsMenu();
+                    break;
+                }
         }
     }
 }

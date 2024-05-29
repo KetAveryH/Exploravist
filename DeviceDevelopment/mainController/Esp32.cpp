@@ -281,15 +281,6 @@ void Esp32::GoogleTTS(String text, String lang)
     }
 }
 
-int Esp32::getBeep()
-{
-    return beep;
-}
-
-void Esp32::setBeep(int beeps)
-{
-    beep = beeps;
-}
 
 void blinkNtimes(int numTimes, int spacing)
 {
