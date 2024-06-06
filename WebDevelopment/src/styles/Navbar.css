@@ -1,0 +1,65 @@
+.navbar_gradient {
+    height: var(--nav-gradient-size);
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar_gradient_bar_1 {
+    width: 100vw;
+    height: 1vh;
+    margin-bottom: 1vh;
+    background-color: var(--alt);
+}
+
+.navbar_gradient_bar_2 {
+    width: 100vw;
+    height: 1vh;
+    margin-bottom: 1vh;
+    background-color: var(--alt-two);
+}
+
+.navbar_gradient_bar_3 {
+    width: 100vw;
+    height: 1vh;
+    background-color: var(--alt-three);
+}
+
+.navbar {
+    height: var(--nav-size);
+    padding: 0 1rem;
+    border-bottom: var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+}
+
+.navbar_nav {
+    max-width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.navbar_title {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 3vw;
+    font-size: 1.7rem;
+}
+
+.navbar_title:hover {
+    filter: brightness(150%)
+}
+
+.nav_link {
+    width: calc(var(--nav-size) * 1.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    border-radius: 20%;
+}
+
+.nav_link:hover {
+    filter: brightness(150%)
+}

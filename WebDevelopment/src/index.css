@@ -1,3 +1,33 @@
 :root {
-    --main-bg-color: grey;
+    --nav-gradient-size: 5vh;
+    --nav-size: 10vh;
+    --footer-size: 10vh;
+    --bg: #eaeaea;
+    --bg-accent: #2c2e3a;
+    --alt: #17207a;
+    --alt-two: #0a21c0;
+    --alt-three: #3c50d0;
+    --text-color: #0e0e0e;
+}
+
+body {
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bg);
+    font-family: 'Quicksand';
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: var(--alt-three);
+    text-decoration: none;
 }
