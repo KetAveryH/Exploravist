@@ -1,4 +1,4 @@
-.navbar_gradient {
+/* .navbar_gradient {
     height: var(--nav-gradient-size);
     display: flex;
     flex-direction: column;
@@ -22,7 +22,7 @@
     width: 100vw;
     height: 1vh;
     background-color: var(--alt-three);
-}
+} */
 
 .navbar {
     height: var(--nav-size);
@@ -56,7 +56,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     border-radius: 20%;
 }
 

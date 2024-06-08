@@ -7,7 +7,6 @@
     --alt: #17207a;
     --alt-two: #0a21c0;
     --alt-three: #3c50d0;
-    --text-color: #0e0e0e;
 }
 
 body {
@@ -15,7 +14,7 @@ body {
     width: 100vw;
     height: 100vh;
     background-color: var(--bg);
-    font-family: 'Quicksand';
+    font-family: WF Visual Sans, sans-serif;
     font-weight: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -28,6 +27,6 @@ ul {
 }
 
 a {
-    color: var(--alt-three);
+    color: var(--bg-accent);
     text-decoration: none;
 }

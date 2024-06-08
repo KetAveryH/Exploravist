@@ -11,7 +11,6 @@ const Home = () => {
         <section className='home_hero'>
           <img className='home_logo' src={HomeLogo} alt='Home Logo' />
         </section>
-        
     </Fragment>
   )
 }
