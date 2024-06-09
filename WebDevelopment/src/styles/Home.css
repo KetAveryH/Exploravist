@@ -7,7 +7,6 @@
 }
 
 .home_logo {
-    margin-top: 5vh;
     height: 70vh;
     background-color: var(--bg-accent);
     border: 1rem solid var(--bg-accent);
