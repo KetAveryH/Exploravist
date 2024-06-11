@@ -27,13 +27,13 @@ const Home = () => {
           controls.start({
             opacity: 1,
             y: 0,
-            transition: { duration: .75 }
+            transition: { duration: .7 }
           });
         } else {
           controls.start({
             opacity: .5,
             y: -100,
-            transition: { duration: .75 }
+            transition: { duration: .7 }
           });
         }
       }
@@ -59,7 +59,7 @@ const Home = () => {
       </section> */}
       <motion.section
         className='home_image_slider'
-        initial={{ opacity: 0, y: -100 }}
+        initial={{ opacity: .5, y: -100 }}
         animate={controls} 
         ref={sliderRef} 
       >
