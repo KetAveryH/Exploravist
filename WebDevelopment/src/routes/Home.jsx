@@ -1,7 +1,7 @@
 import React from 'react'
 import { Fragment, useState, useEffect, useRef } from 'react'
 import {ArrowDownToLine} from 'lucide-react'
-import { motion, useAnimation } from 'framer-motion'; // <-- Added this line
+import { motion, useAnimation } from 'framer-motion'; 
 import Navbar from '../components/Navbar'
 import ImageSlider from '../components/ImageSlider'
 import Footer from '../components/Footer'
@@ -16,10 +16,10 @@ import '../styles/Home.css';
 const Home = () => {
   const images = [img1, img2, img3, img4, img5]
 
-  const sliderRef = useRef(null); // <-- Added this line
-  const controls = useAnimation(); // <-- Added this line
+  const sliderRef = useRef(null); 
+  const controls = useAnimation();
 
-  useEffect(() => { // <-- Added this effect
+  useEffect(() => {
     const handleScroll = () => {
       if (sliderRef.current) {
         const rect = sliderRef.current.getBoundingClientRect();
@@ -27,13 +27,13 @@ const Home = () => {
           controls.start({
             opacity: 1,
             y: 0,
-            transition: { duration: 1 }
+            transition: { duration: .75 }
           });
         } else {
           controls.start({
             opacity: .5,
             y: -100,
-            transition: { duration: 1 }
+            transition: { duration: .75 }
           });
         }
       }
@@ -59,9 +59,9 @@ const Home = () => {
       </section> */}
       <motion.section
         className='home_image_slider'
-        initial={{ opacity: 0, y: 50 }} // <-- Added this line
-        animate={controls} // <-- Added this line
-        ref={sliderRef} // <-- Added this line
+        initial={{ opacity: 0, y: -100 }}
+        animate={controls} 
+        ref={sliderRef} 
       >
         <div className='image_slider_wrapper'>
           <ImageSlider imageUrls={images} />
