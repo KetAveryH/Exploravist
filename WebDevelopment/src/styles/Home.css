@@ -27,6 +27,7 @@
     aspect-ratio: 9 / 5;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 5vh;
     background-color: var(--bg-accent);
     border-radius: 1rem;
     display: flex;

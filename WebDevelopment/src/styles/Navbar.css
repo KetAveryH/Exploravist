@@ -1,6 +1,15 @@
 .navbar {
     height: var(--nav-size);
-    margin-top: auto;
+    position: sticky; /* Make the navbar sticky */
+    top: 0; /* Position it at the top */
+    z-index: 1000; /* Ensure it stays above other elements */
+    background-color: var(--bg); /* Ensure background color is set */
+    width: 100%; /* Make sure it spans the full width */
+    transition: background-color 250ms ease-in-out; /* Smooth transition */
+}
+
+.navbar.sticky {
+    background-color: transparent; /* Transparent background when sticky */
 }
 
 .navbar_title {
@@ -22,21 +31,21 @@
 }
 
 .nav_links {
-    margin-right: 3vw;
+    margin-right: 4vw;
 }
 
 .nav_link {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: var(--bg);
-    background-color: var(--bg-accent-two);
+    background-color: var(--bg-accent);
     display: block;
     float: right;
     margin-right: 1rem;
     margin-left: 1rem;
     margin-top: calc(7.5vh - 1.2rem);
     padding: .6rem 1.2rem .6rem 1.2rem;
-    border: 2px var(--bg-accent-two) solid;
-    border-radius: 2rem;
+    border: 3px var(--bg-accent-two) solid;
+    border-radius: 15px;
     transition: ease-in-out 250ms;
 }
 

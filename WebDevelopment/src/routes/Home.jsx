@@ -3,6 +3,7 @@ import { Fragment } from 'react'
 import {ArrowDownToLine} from 'lucide-react'
 import Navbar from '../components/Navbar'
 import ImageSlider from '../components/ImageSlider'
+import Footer from '../components/Footer'
 import HomeLogo from '../assets/home-logo.svg'
 import img1 from '../imgs/image-1.jpg'
 import img2 from '../imgs/image-2.jpg'
@@ -16,7 +17,7 @@ const Home = () => {
 
   return (
     <Fragment>
-        <Navbar />
+        <Navbar/>
         <section className='home_logo_hero'>
           <img className='home_logo' src={HomeLogo} alt='Home Logo' />
         </section>
@@ -28,6 +29,7 @@ const Home = () => {
             <ImageSlider imageUrls={images}/>
           </div>
         </section>
+        <Footer/>
     </Fragment>
   )
 }
