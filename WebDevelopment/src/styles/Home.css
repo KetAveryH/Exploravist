@@ -12,14 +12,14 @@
     border-radius: 1rem;
 }
 
-.home_arrow_down {
-    stroke: var(--bg-accent);
-    position: absolute;
-    left: 49%;
+.home_nextsection {
+    height: 10vh;
+    display: flex;
+    justify-content: center;
 }
 
-.home_nextsection  {
-    height: 10vh;
+.home_arrow_down {
+    stroke: var(--bg-accent);
 }
 
 .home_image_slider {
