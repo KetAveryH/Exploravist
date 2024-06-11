@@ -1,6 +1,7 @@
 import React from 'react'
-import { Fragment } from 'react'
+import { Fragment, useState, useEffect, useRef } from 'react'
 import {ArrowDownToLine} from 'lucide-react'
+import { motion, useAnimation } from 'framer-motion'; // <-- Added this line
 import Navbar from '../components/Navbar'
 import ImageSlider from '../components/ImageSlider'
 import Footer from '../components/Footer'
@@ -15,21 +16,58 @@ import '../styles/Home.css';
 const Home = () => {
   const images = [img1, img2, img3, img4, img5]
 
+  const sliderRef = useRef(null); // <-- Added this line
+  const controls = useAnimation(); // <-- Added this line
+
+  useEffect(() => { // <-- Added this effect
+    const handleScroll = () => {
+      if (sliderRef.current) {
+        const rect = sliderRef.current.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom >= 0) {
+          controls.start({
+            opacity: 1,
+            y: 0,
+            transition: { duration: 1 }
+          });
+        } else {
+          controls.start({
+            opacity: .5,
+            y: -100,
+            transition: { duration: 1 }
+          });
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [controls]);
+
   return (
     <Fragment>
-        <Navbar/>
-        <section className='home_logo_hero'>
-          <img className='home_logo' src={HomeLogo} alt='Home Logo' />
-        </section>
-        <section className='home_nextsection'>
-          <ArrowDownToLine className='home_arrow_down' size={30} />
-        </section>
-        <section className='home_image_slider'>
-          <div className='image_slider_wrapper'>
-            <ImageSlider imageUrls={images}/>
-          </div>
-        </section>
-        <Footer/>
+      <Navbar/>
+      <section className='home_logo_hero'>
+        <img className='home_logo' src={HomeLogo} alt='Home Logo' />
+      </section>
+      <section className='home_nextsection'>
+        <ArrowDownToLine className='home_arrow_down' size={30} />
+      </section>
+      {/* <section className='home_image_slider'>
+        <div className='image_slider_wrapper'>
+          <ImageSlider imageUrls={images}/>
+        </div>
+      </section> */}
+      <motion.section
+        className='home_image_slider'
+        initial={{ opacity: 0, y: 50 }} // <-- Added this line
+        animate={controls} // <-- Added this line
+        ref={sliderRef} // <-- Added this line
+      >
+        <div className='image_slider_wrapper'>
+          <ImageSlider imageUrls={images} />
+        </div>
+      </motion.section>
+      <Footer />
     </Fragment>
   )
 }
