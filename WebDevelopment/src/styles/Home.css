@@ -1,4 +1,4 @@
-.home_hero {
+.home_logo_hero {
     display: flex;
     flex-direction: column;
     height: 75vh;
@@ -9,6 +9,32 @@
 .home_logo {
     height: 70vh;
     background-color: var(--bg-accent);
-    border: 1rem solid var(--bg-accent);
     border-radius: 1rem;
+}
+
+.home_arrow_down {
+    stroke: var(--bg-accent);
+    position: absolute;
+    left: 49%;
+}
+
+.home_nextsection  {
+    height: 10vh;
+}
+
+.home_image_slider {
+    width: 90vw;
+    aspect-ratio: 9 / 5;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: var(--bg-accent);
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image_slider_wrapper {
+    width: 85vw;
+    aspect-ratio: 4 /2;
 }
