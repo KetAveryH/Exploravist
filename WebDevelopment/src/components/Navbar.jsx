@@ -10,8 +10,8 @@ const Navbar = () => {
       <nav className='navbar'>
         <Link to='/' className='navbar_title'><img className='nav_logo' src={NavLogo} alt='ExploraVist' /></Link>
         <div className='nav_links'>
-          <Link to='/updates' className='nav_link'>Updates</Link>
           <Link to='/contact' className='nav_link'>Contact</Link>
+          <Link to='/updates' className='nav_link'>Updates</Link>
         </div>
 			</nav>
     </Fragment>
