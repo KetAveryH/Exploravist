@@ -7,6 +7,7 @@
     display: block;
     float: left;
     margin-top: auto;
+    transition: ease-in-out 250ms;
 }
 
 .navbar_title:hover {
@@ -20,20 +21,27 @@
     margin-left: 3vw;
 }
 
+.nav_links {
+    margin-right: 3vw;
+}
+
 .nav_link {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
+    color: var(--bg);
+    background-color: var(--bg-accent-two);
     display: block;
     float: right;
-    margin-right: 2rem;
-    margin-left: 2rem;
-    margin-top: calc(7vh - 1.4rem);
-    padding: 1rem 1.4rem 1rem 1.4rem;
-    border: 2px var(--bg-accent) solid;
-    border-radius: 10px;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    margin-top: calc(7.5vh - 1.2rem);
+    padding: .6rem 1.2rem .6rem 1.2rem;
+    border: 2px var(--bg-accent-two) solid;
+    border-radius: 2rem;
+    transition: ease-in-out 250ms;
 }
 
 .nav_link:hover {
-    filter: opacity(75%)
+    filter: opacity(75%);
 }
 
 .nav_updates {
