@@ -1,6 +1,6 @@
 import React from 'react'
 import { Fragment, useState } from 'react'
-import { ArrowBigLeft, ArrowBigRight } from 'lucide-react';
+import { ArrowBigLeft, ArrowBigRight, Circle, CircleDot } from 'lucide-react';
 import '../styles/ImageSlider.css'
 
 
@@ -23,13 +23,24 @@ const ImageSlider = (props) => {
     return (
         <Fragment>
             <div className='imgslider'>
-                <img src={props.imageUrls[imageIndex]} className='imgslider_image' />
+                <div className='imgslider_image_wrapper'>
+                    {props.imageUrls.map(url => (
+                        <img key={url} src={url} className='imgslider_image' style={{translate: `${-100*imageIndex}%`}}/>
+                    ))}
+                </div>
                 <button onClick={showPrevImage} className='imgslider_btn' style={{left: 0}}>
                     <ArrowBigLeft />
                 </button>
                 <button onClick={showNextImage} className='imgslider_btn' style={{right: 0}}>
                     <ArrowBigRight />
                 </button>
+                <div className='imgslider_dots'>
+                    {props.imageUrls.map((_, index) =>(
+                        <button key={index} onClick={() => setImageIndex(index)} className='imgslider_dot_btn'>
+                            {index === imageIndex ? <CircleDot/> : <Circle/>}
+                        </button>
+                    ))}
+                </div>
             </div>
         </Fragment>
     )
