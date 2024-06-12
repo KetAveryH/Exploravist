@@ -1,0 +1,29 @@
+.contact {
+    display: flex;
+    flex-direction: column;
+    height: 75vh;
+    width: 90vw;
+    margin: auto;
+}
+
+.contact_hero {
+    display: flex;
+    flex-direction: column;
+    height: 70vh;
+    background-color: var(--bg-accent);
+    border-radius: 1rem;
+}
+
+.contact_header {
+    font-size: 2.5rem;
+    color: var(--bg);
+    margin-left: 4rem;
+    margin-right: 4rem;
+}
+
+.contact_paragraph {
+    font-size: 1.4rem;
+    color: var(--bg);
+    margin-left: 4rem;
+    margin-right: 4rem;
+}

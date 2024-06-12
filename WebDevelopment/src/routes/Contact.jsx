@@ -8,7 +8,12 @@ const Contact = () => {
   return (
     <Fragment>
         <Navbar/>
-        <p>Contact</p>
+          <main className='contact'>
+            <section className='contact_hero'>
+              <h1 className='contact_header'>Contact Us!</h1>
+              <p className='contact_paragraph'>Please send us an email if you want to test a device for free, are interested in buying one later on or have any other questions. We will actually send you one for free to test! </p>
+            </section>
+          </main>
         <Footer/>
     </Fragment>
   )
