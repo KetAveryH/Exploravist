@@ -4,6 +4,7 @@
     height: 75vh;
     width: 90vw;
     margin: auto;
+    color: var(--bg);
 }
 
 .contact_hero {
@@ -17,6 +18,7 @@
 .contact_header {
     font-size: 2.5rem;
     color: var(--bg);
+    margin-top: 3.5rem;
     margin-left: 4rem;
     margin-right: 4rem;
 }
@@ -24,6 +26,43 @@
 .contact_paragraph {
     font-size: 1.4rem;
     color: var(--bg);
+    margin-left: 4rem;
+    margin-right: 4rem;
+}
+
+.contact_link {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-left: 4rem;
+    margin-right: 4rem;
+    width: min-content;
+    height: min-content;
+    margin-top: 1rem;
+    padding: 0 .75rem;
+    border: .1rem solid var(--bg);
+}
+
+.contact_link:hover {
+    cursor: pointer;
+    filter: brightness(125%);
+    background-color: var(--bg-accent-two);
+    transition: filter 250ms ease-in-out;
+}
+
+.contact_mail_icon {
+    stroke: var(--bg);
+    fill: var(--alt-three);
+    margin-right: .75rem;
+}
+
+.contact_mail_address {
+    color: var(--bg);
+    font-size: 1.1rem;
+}
+
+.contact_copied_notification {
     margin-left: 4rem;
     margin-right: 4rem;
 }

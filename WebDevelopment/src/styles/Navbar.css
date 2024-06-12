@@ -1,15 +1,15 @@
 .navbar {
     height: var(--nav-size);
-    position: sticky; /* Make the navbar sticky */
-    top: 0; /* Position it at the top */
-    z-index: 1000; /* Ensure it stays above other elements */
-    background-color: var(--bg); /* Ensure background color is set */
-    width: 100%; /* Make sure it spans the full width */
-    transition: background-color 250ms ease-in-out; /* Smooth transition */
+    width: 100%;
+    background-color: var(--bg);
+    position: sticky; 
+    top: 0;
+    z-index: 1000; 
+    transition: background-color 250ms ease-in-out; 
 }
 
 .navbar.sticky {
-    background-color: transparent; /* Transparent background when sticky */
+    background-color: transparent;
 }
 
 .navbar_title {
