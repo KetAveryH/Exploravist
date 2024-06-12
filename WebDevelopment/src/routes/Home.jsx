@@ -47,7 +47,7 @@ const Home = () => {
     <Fragment>
       <Navbar/>
       <section className='home_logo_hero'>
-        <img className='home_logo' src={HomeLogo} alt='Home Logo' />
+        <img className='home_logo' src={HomeLogo} alt='AI VISION - Developing the worlds most affordable AI visual description device' />
       </section>
       <section className='home_nextsection'>
         <ArrowDownToLine className='home_arrow_down' size={30} />
@@ -63,9 +63,9 @@ const Home = () => {
         animate={controls} 
         ref={sliderRef} 
       >
-        <div className='image_slider_wrapper'>
+        <section className='image_slider_wrapper' aria-label='Image Slider'>
           <ImageSlider imageUrls={images} />
-        </div>
+        </section>
       </motion.section>
       <Footer />
     </Fragment>

@@ -25,7 +25,12 @@ const ImageSlider = (props) => {
             <div className='imgslider'>
                 <div className='imgslider_image_wrapper'>
                     {props.imageUrls.map(url => (
-                        <img key={url} src={url} className='imgslider_image' style={{translate: `${-100*imageIndex}%`}}/>
+                        <img 
+                            key={url} 
+                            src={url} 
+                            className='imgslider_image' 
+                            style={{translate: `${-100*imageIndex}%`}}
+                        />
                     ))}
                 </div>
                 <button 
@@ -34,7 +39,7 @@ const ImageSlider = (props) => {
                     style={{left: 0}}
                     aria-label='View Previous Image'
                 >
-                    <ArrowBigLeft />
+                    <ArrowBigLeft aria-hidden/>
                 </button>
                 <button 
                     onClick={showNextImage} 
@@ -42,7 +47,7 @@ const ImageSlider = (props) => {
                     style={{right: 0}}
                     aria-label='View Next Image'
                 >
-                    <ArrowBigRight />
+                    <ArrowBigRight aria-hidden/>
                 </button>
                 <div className='imgslider_dots'>
                     {props.imageUrls.map((_, index) =>(
@@ -50,9 +55,9 @@ const ImageSlider = (props) => {
                             key={index} 
                             onClick={() => setImageIndex(index)} 
                             className='imgslider_dot_btn'
-                            aria-label={`View Image ${index}`}
+                            aria-label={`View Image ${index + 1}`}
                         >
-                            {index === imageIndex ? <CircleDot/> : <Circle/>}
+                            {index === imageIndex ? <CircleDot aria-hidden/> : <Circle aria-hidden/>}
                         </button>
                     ))}
                 </div>
