@@ -28,15 +28,30 @@ const ImageSlider = (props) => {
                         <img key={url} src={url} className='imgslider_image' style={{translate: `${-100*imageIndex}%`}}/>
                     ))}
                 </div>
-                <button onClick={showPrevImage} className='imgslider_btn' style={{left: 0}}>
+                <button 
+                    onClick={showPrevImage} 
+                    className='imgslider_btn' 
+                    style={{left: 0}}
+                    aria-label='View Previous Image'
+                >
                     <ArrowBigLeft />
                 </button>
-                <button onClick={showNextImage} className='imgslider_btn' style={{right: 0}}>
+                <button 
+                    onClick={showNextImage} 
+                    className='imgslider_btn' 
+                    style={{right: 0}}
+                    aria-label='View Next Image'
+                >
                     <ArrowBigRight />
                 </button>
                 <div className='imgslider_dots'>
                     {props.imageUrls.map((_, index) =>(
-                        <button key={index} onClick={() => setImageIndex(index)} className='imgslider_dot_btn'>
+                        <button 
+                            key={index} 
+                            onClick={() => setImageIndex(index)} 
+                            className='imgslider_dot_btn'
+                            aria-label={`View Image ${index}`}
+                        >
                             {index === imageIndex ? <CircleDot/> : <Circle/>}
                         </button>
                     ))}
