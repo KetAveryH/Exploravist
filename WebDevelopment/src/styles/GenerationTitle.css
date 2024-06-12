@@ -1,0 +1,19 @@
+.generationtitle {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+
+.generationtitle_num {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+}
+
+.generationtitle_date {
+    font-size: 1.3rem;
+    margin-right: 1rem;
+}
+
+.generationtitle_title {
+    font-size: 1.2rem;
+}

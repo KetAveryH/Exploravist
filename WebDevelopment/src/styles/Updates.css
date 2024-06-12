@@ -1,0 +1,30 @@
+.updates {
+    display: flex;
+    flex-direction: column;
+    height: 75vh;
+    width: 90vw;
+    margin: auto;
+    color: var(--bg);
+}
+
+.updates_generations {
+    display: flex;
+    flex-direction: column;
+    min-height: 70vh;
+    overflow: visible;
+    margin-bottom: 5vh;
+    background-color: var(--bg-accent);
+    border-radius: 1rem;
+}
+
+.updates_header {
+    font-size: 2.5rem;
+    margin-top: 3.5rem;
+    margin-bottom: 0;
+    margin-left: 4rem;
+    margin-right: 4rem;
+}
+
+.updates_gen {
+    margin-left: 4rem;
+}
