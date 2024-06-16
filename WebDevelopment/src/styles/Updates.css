@@ -1,7 +1,7 @@
 .updates {
     display: flex;
     flex-direction: column;
-    height: 75vh;
+    min-height: 75vh;
     width: 90vw;
     margin: auto;
     color: var(--bg);
@@ -35,7 +35,7 @@
     align-items: center;
     font-size: 1.15rem;
     cursor: pointer;
-    margin-bottom: 1rem;
+    gap: 0.5rem;
 }
 
 .updates_details_toggle:hover,
@@ -73,4 +73,39 @@
 
 .updates_details {
     margin-left: 1rem;
+    font-size: 1.1rem;
+}
+
+.updates_details h2 {
+    font-weight: 600;
+    font-size: 1.2;
+}
+
+.updates_details ul {
+    list-style-type: '- ';
+    padding-left: .5rem;
+}
+
+.updates_details ul li {
+    margin-left: .5rem;
+}
+
+.updates_details_link {
+    display: inline-flex;
+    align-items: baseline;
+    color: var(--alt-three);
+    font-weight: 600;
+    padding: .25rem;
+    border-radius: 15px;
+    filter: brightness(170%);
+}
+
+.updates_details_link:hover {
+    background-color: var(--bg-accent);
+    filter: brightness(200%);
+    transition: 300ms ease-in-out;
+}
+
+.updates_details_end {
+    margin-bottom: 1.5rem;
 }
