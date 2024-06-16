@@ -28,3 +28,49 @@
 .updates_gen {
     margin-left: 4rem;
 }
+
+.updates_details_toggle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 1.15rem;
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
+
+.updates_details_toggle:hover,
+.updates_details_toggle:focus-visible {
+    filter: brightness(150%);
+}
+
+.icon.rotate-right {
+    animation: rotateToRight 0.3s forwards;
+}
+
+.icon.rotate-down {
+    animation: rotateToDown 0.3s forwards;
+}
+
+@keyframes rotateToRight {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(-90deg);
+    }
+}
+
+@keyframes rotateToDown {
+    from {
+        transform: rotate(-90deg);
+    }
+
+    to {
+        transform: rotate(0deg);
+    }
+}
+
+.updates_details {
+    margin-left: 1rem;
+}
