@@ -4,6 +4,7 @@ build/
 *sdkconfig
 *.ci
 *.old
+*.expo 
 
 **/Config.h
 ElevenLabs/output.mp3
