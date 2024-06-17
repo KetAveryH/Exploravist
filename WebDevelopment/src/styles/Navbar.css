@@ -1,0 +1,62 @@
+.navbar {
+    height: var(--nav-size);
+    width: 100%;
+    background-color: var(--bg);
+    position: sticky; 
+    top: 0;
+    z-index: 1000; 
+    transition: background-color 250ms ease-in-out; 
+}
+
+.navbar.sticky {
+    background-color: transparent;
+}
+
+.navbar_title {
+    display: block;
+    float: left;
+    margin-top: auto;
+    transition: ease-in-out 250ms;
+}
+
+.navbar_title:hover {
+    filter: opacity(75%)
+}
+
+.nav_logo {
+    height: calc(var(--nav-size)*(2/3));
+    margin-top: calc(var(--nav-size)*(1/6));
+    margin-bottom: calc(var(--nav-size)*(1/6));
+    margin-left: 3vw;
+}
+
+.nav_links {
+    margin-right: 4vw;
+}
+
+.nav_link {
+    font-size: 1.1rem;
+    color: var(--bg);
+    background-color: var(--bg-accent);
+    display: block;
+    float: right;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    margin-top: calc(7.5vh - 1.2rem);
+    padding: .6rem 1.2rem .6rem 1.2rem;
+    border: 3px var(--bg-accent-two) solid;
+    border-radius: 15px;
+    transition: ease-in-out 250ms;
+}
+
+.nav_link:hover {
+    filter: opacity(75%);
+}
+
+.nav_updates {
+    height: var(--nav-size);
+}
+
+.nav_contact {
+    height: 5rem;
+}

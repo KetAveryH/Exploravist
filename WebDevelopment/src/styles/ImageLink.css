@@ -1,0 +1,5 @@
+.updates_details_img {
+    width: 30vw;
+    border: .2rem solid var(--bg);
+    border-radius: 15px;
+}

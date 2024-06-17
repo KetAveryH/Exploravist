@@ -1,0 +1,41 @@
+.home_logo_hero {
+    display: flex;
+    flex-direction: column;
+    height: 75vh;
+    width: 90vw;
+    margin: auto;
+}
+
+.home_logo {
+    height: 70vh;
+    background-color: var(--bg-accent);
+    border-radius: 1rem;
+}
+
+.home_nextsection {
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+}
+
+.home_arrow_down {
+    stroke: var(--bg-accent);
+}
+
+.home_image_slider {
+    width: 90vw;
+    aspect-ratio: 9 / 5;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5vh;
+    background-color: var(--bg-accent);
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image_slider_wrapper {
+    width: 85vw;
+    aspect-ratio: 4 /2;
+}
