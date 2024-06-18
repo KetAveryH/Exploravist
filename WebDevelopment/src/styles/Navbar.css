@@ -1,6 +1,5 @@
 .navbar {
     height: var(--nav-size);
-    width: 100%;
     background-color: var(--bg);
     position: sticky; 
     top: 0;

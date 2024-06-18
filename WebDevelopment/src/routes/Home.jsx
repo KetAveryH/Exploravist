@@ -4,6 +4,7 @@ import {ArrowDownToLine} from 'lucide-react'
 import { motion, useAnimation } from 'framer-motion'; 
 import Navbar from '../components/Navbar'
 import ImageSlider from '../components/ImageSlider'
+import VideoPlayer from '../components/VideoPlayer'
 import Footer from '../components/Footer'
 import HomeLogo from '../assets/home-logo.svg'
 import img1 from '../imgs/image-1.jpg'
@@ -52,21 +53,25 @@ const Home = () => {
       <section className='home_nextsection'>
         <ArrowDownToLine className='home_arrow_down' size={30} />
       </section>
-      {/* <section className='home_image_slider'>
-        <div className='image_slider_wrapper'>
-          <ImageSlider imageUrls={images}/>
-        </div>
-      </section> */}
       <motion.section
-        className='home_image_slider'
+        className='home_image_video'
         initial={{ opacity: .5, y: -100 }}
         animate={controls} 
         ref={sliderRef} 
       >
-        <section className='image_slider_wrapper' aria-label='Image Slider'>
-          <ImageSlider imageUrls={images} />
+        <section className='video_player_wrapper' aria-label='Image Slider'>
+          <VideoPlayer/>
         </section>
       </motion.section>
+      <section
+        className='home_image_slider'
+        initial={{ opacity: .5, y: -100 }}
+        animate={controls} 
+      >
+        <div className='image_slider_wrapper' aria-label='Image Slider'>
+          <ImageSlider imageUrls={images} />
+        </div>
+      </section>
       <Footer />
     </Fragment>
   )
