@@ -59,15 +59,9 @@ const Home = () => {
         animate={controls} 
         ref={sliderRef} 
       >
-        <section className='video_player_wrapper' aria-label='Image Slider'>
-          <VideoPlayer/>
-        </section>
+        <VideoPlayer/>
       </motion.section>
-      <section
-        className='home_image_slider'
-        initial={{ opacity: .5, y: -100 }}
-        animate={controls} 
-      >
+      <section className='home_image_slider'>
         <div className='image_slider_wrapper' aria-label='Image Slider'>
           <ImageSlider imageUrls={images} />
         </div>
