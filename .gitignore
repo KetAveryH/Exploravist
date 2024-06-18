@@ -9,3 +9,4 @@ build/
 **/Config.h
 ElevenLabs/output.mp3
 **network_param.h
+**/.DS_Store
