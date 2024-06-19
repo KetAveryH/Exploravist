@@ -1,4 +1,13 @@
 .videoplayer {
     width: 85vw;
     aspect-ratio: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.videoplayer .video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }

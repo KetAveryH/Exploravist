@@ -1,12 +1,17 @@
 import React from 'react'
 import { Fragment } from 'react'
-import ReactPlayer from 'react-player/lazy'
+import Video from '../assets/device-demo.mp4'
+import '../styles/VideoPlayer.css'
 
 
 const VideoPlayer = () => {
   return (
     <Fragment>
-        <ReactPlayer width='85vw' url='https://www.youtube.https://www.youtube.com/watch?v=oNvpvXw-iFU/watch?v=ysz5S6PUM-U' />
+        <div className='videoplayer'>
+            <video className='video' controls>
+                <source src={Video} type='video/mp4'/>
+            </video>
+        </div>
     </Fragment>
   )
 }
