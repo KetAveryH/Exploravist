@@ -6,6 +6,7 @@ import '../styles/ImageSlider.css'
 
 const ImageSlider = (props) => {
     const [imageIndex, setImageIndex] = useState(0);
+    const imageRefs = useRef([]);
 
     const showPrevImage = () => {
         setImageIndex(index => {
@@ -20,6 +21,34 @@ const ImageSlider = (props) => {
         })
     }
 
+    useEffect(() => {
+        const options = {
+            root: null, 
+            rootMargin: '0px',
+            threshold: 0.01 // trigger when 1% of the image is visible
+        };
+
+        const callback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const imageElement = entry.target;
+                    imageElement.src = imageElement.dataset.src; // load the actual image src
+                    observer.unobserve(imageElement);
+                }
+            });
+        };
+
+        const observer = new IntersectionObserver(callback, options);
+        
+        imageRefs.current.forEach(image => {
+            observer.observe(image);
+        });
+
+        return () => {
+            observer.disconnect();
+        };
+    }, [props.imageUrls]); // re-run the effect if imageUrls change
+
     return (
         <Fragment>
             <div className='imgslider'>
@@ -27,10 +56,13 @@ const ImageSlider = (props) => {
                     {props.imageUrls.map((url, index) => (
                         <img 
                             key={url} 
-                            src={url} 
+                            // src={url} 
+                            ref={el => (imageRefs.current[index] = el)}
+                            data-src={url}
                             className='imgslider_image' 
                             style={{translate: `${-100*imageIndex}%`}}
                             aria-label={`Image # ${index + 1}`}
+                            alt={`Image #${index + 1}`}
                         />
                     ))}
                 </div>

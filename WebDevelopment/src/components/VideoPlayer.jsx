@@ -11,7 +11,7 @@ const VideoPlayer = () => {
             const options = {
             root: null,
             rootMargin: '0px', 
-            threshold: 0.1 // trigger when 10% of the video is visible
+            threshold: 0.20 // trigger when 20% of the video is visible
         }
 
         const callback = (entries, observer) => {

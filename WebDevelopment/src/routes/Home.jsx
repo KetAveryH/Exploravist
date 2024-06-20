@@ -28,17 +28,17 @@ const Home = () => {
           controls.start({
             opacity: 1,
             y: 0,
-            transition: { duration: .7 }
+            transition: { duration: 1 }
           });
         } else {
           controls.start({
             opacity: .5,
             y: -100,
-            transition: { duration: .7 }
+            transition: { duration: 1 }
           });
         }
       }
-    };
+    }
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
