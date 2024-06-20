@@ -1,5 +1,5 @@
 import React from 'react'
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useRef, useEffect } from 'react'
 import { ArrowBigLeft, ArrowBigRight, Circle, CircleDot } from 'lucide-react';
 import '../styles/ImageSlider.css'
 
@@ -24,12 +24,13 @@ const ImageSlider = (props) => {
         <Fragment>
             <div className='imgslider'>
                 <div className='imgslider_image_wrapper'>
-                    {props.imageUrls.map(url => (
+                    {props.imageUrls.map((url, index) => (
                         <img 
                             key={url} 
                             src={url} 
                             className='imgslider_image' 
                             style={{translate: `${-100*imageIndex}%`}}
+                            aria-label={`Image # ${index + 1}`}
                         />
                     ))}
                 </div>

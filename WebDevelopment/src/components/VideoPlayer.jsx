@@ -1,15 +1,44 @@
 import React from 'react'
-import { Fragment } from 'react'
+import { Fragment, useEffect, useRef } from 'react'
 import Video from '../assets/device-demo.mp4'
 import '../styles/VideoPlayer.css'
 
 
 const VideoPlayer = () => {
+    const videoRef = useRef(null);
+
+    useEffect(() => {
+            const options = {
+            root: null,
+            rootMargin: '0px', 
+            threshold: 0.1 // trigger when 10% of the video is visible
+        }
+
+        const callback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                const video = entry.target;
+                video.src = Video;
+                observer.unobserve(video);
+                }
+            })
+        }
+
+        const observer = new IntersectionObserver(callback, options);
+        observer.observe(videoRef.current);
+
+        return () => {
+            if (videoRef.current) {
+                observer.unobserve(videoRef.current);
+            }
+        }
+    }, [])
+
   return (
     <Fragment>
         <div className='videoplayer'>
-            <video className='video' controls>
-                <source src={Video} type='video/mp4'/>
+            <video className='video' ref={videoRef} controls>
+                <source src='' type='video/mp4'/>
             </video>
         </div>
     </Fragment>
