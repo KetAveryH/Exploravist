@@ -15,7 +15,7 @@ import img5 from '../imgs/image-5.jpg'
 import '../styles/Home.css';
 
 const Home = () => {
-  const images = [img1, img2, img3, img4, img5]
+  const images = [img1, img2, img3, img4, img5];
 
   const sliderRef = useRef(null); 
   const controls = useAnimation();

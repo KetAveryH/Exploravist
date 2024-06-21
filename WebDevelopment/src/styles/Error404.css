@@ -1,0 +1,46 @@
+.error {
+    height: 75vh;
+    width: 90vw;
+    margin: auto;
+    color: var(--bg);
+}
+
+.error_wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90vw;
+    height: 70vh;
+    max-width: 90vw;
+    background-color: var(--bg-accent);
+    border-radius: 15px;
+}
+
+.error_animation {
+    width: 25vw;
+}
+
+.error_header {
+    font-size: 2.5rem;
+    margin: 0;
+}
+
+.error_text {
+    margin-top: .3rem;
+}
+
+.error_link {
+    display: flex;
+    justify-content: center;
+    color: var(--bg);
+    background-color: var(--bg-accent);
+    font-size: 1.2rem;
+    padding: .4rem .6rem;
+    border: .15rem solid var(--bg);
+    border-radius: 15px;
+}
+
+.error_link:hover {
+    background-color: var(--bg-accent-two);
+    transition: 250ms ease-in-out; 
+}

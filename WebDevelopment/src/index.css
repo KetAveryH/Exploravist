@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 :root {
-    --nav-gradient-size: 5vh;
     --nav-size: 15vh;
     --footer-size: 10vh;
     --bg: #f2f4ff;

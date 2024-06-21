@@ -10,7 +10,7 @@
 .home_logo {
     height: 70vh;
     background-color: var(--bg-accent);
-    border-radius: 1rem;
+    border-radius: 15px;
 }
 
 .home_nextsection {
