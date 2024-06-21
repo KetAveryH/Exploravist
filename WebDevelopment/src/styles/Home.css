@@ -19,6 +19,26 @@
     justify-content: center;
 }
 
+.home_nextsection_btn {
+    z-index: 1000;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg);
+    border: .2rem solid var(--bg-accent);
+    border-radius: 15px;
+    filter: drop-shadow(.5rem .5rem 4px var(--bg-accent-two));
+}
+
+.home_nextsection_btn:hover,
+.home_nextsection_btn:focus-visible {
+    cursor: pointer;
+    filter: opacity(85%);
+    filter: drop-shadow(.5rem .5rem 4px var(--bg-accent-two));
+}
+
 .home_arrow_down {
     stroke: var(--bg-accent);
 }

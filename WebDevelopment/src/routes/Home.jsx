@@ -42,7 +42,14 @@ const Home = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [controls]);
+  }, [controls])
+
+  const scrollToVideo = () => {
+    const videoSection = document.getElementById('videoSection');
+    if (videoSection) {
+      videoSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 
   return (
     <Fragment>
@@ -51,9 +58,17 @@ const Home = () => {
         <img className='home_logo' src={HomeLogo} alt='AI VISION - Developing the worlds most affordable AI visual description device' />
       </section>
       <section className='home_nextsection'>
-        <ArrowDownToLine className='home_arrow_down' size={30} />
+        <motion.button 
+          className='home_nextsection_btn' 
+          onClick={scrollToVideo}
+          whileHover={{scale: 1.1}}
+          transition={{ type: "spring", stiffness: 400, damping: 10 }}
+        >
+          <ArrowDownToLine className='home_arrow_down' size={30} />
+        </motion.button>
       </section>
       <motion.section
+        id='videoSection'
         className='home_image_video'
         initial={{ opacity: .5, y: -100 }}
         animate={controls} 
