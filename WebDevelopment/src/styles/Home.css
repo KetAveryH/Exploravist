@@ -20,7 +20,7 @@
 }
 
 .home_nextsection_btn {
-    z-index: 1000;
+    z-index: 400;
     width: 3rem;
     height: 3rem;
     display: flex;
@@ -72,4 +72,12 @@
 .image_slider_wrapper {
     width: 85vw;
     aspect-ratio: 2;
+}
+
+@media only screen and (max-width: 700px) {
+    .home_logo {
+        max-width: 90vw;
+        background-color: var(--bg-accent);
+        border-radius: 15px;
+    }
 }

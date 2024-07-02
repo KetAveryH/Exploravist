@@ -1,5 +1,4 @@
-import React from 'react'
-import { Fragment, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { Mail } from 'lucide-react'

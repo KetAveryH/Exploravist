@@ -1,6 +1,5 @@
-import React from 'react'
-import { Fragment, useState, useRef, useEffect } from 'react'
-import { ArrowBigLeft, ArrowBigRight, Circle, CircleDot } from 'lucide-react';
+import React, { Fragment, useState, useRef, useEffect } from 'react'
+import { ArrowBigLeft, ArrowBigRight, Circle, CircleDot } from 'lucide-react'
 import '../styles/ImageSlider.css'
 
 
@@ -25,14 +24,14 @@ const ImageSlider = (props) => {
         const options = {
             root: null, 
             rootMargin: '0px',
-            threshold: 0.01 // trigger when 1% of the image is visible
+            threshold: 0.01 
         };
 
         const callback = (entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const imageElement = entry.target;
-                    imageElement.src = imageElement.dataset.src; // load the actual image src
+                    imageElement.src = imageElement.dataset.src;
                     observer.unobserve(imageElement);
                 }
             });
@@ -47,7 +46,7 @@ const ImageSlider = (props) => {
         return () => {
             observer.disconnect();
         };
-    }, [props.imageUrls]); // re-run the effect if imageUrls change
+    }, [props.imageUrls]);
 
     return (
         <Fragment>
@@ -56,7 +55,6 @@ const ImageSlider = (props) => {
                     {props.imageUrls.map((url, index) => (
                         <img 
                             key={url} 
-                            // src={url} 
                             ref={el => (imageRefs.current[index] = el)}
                             data-src={url}
                             className='imgslider_image' 

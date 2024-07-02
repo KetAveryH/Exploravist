@@ -17,3 +17,19 @@
 .generationtitle_title {
     font-size: 1.2rem;
 }
+
+@media only screen and (max-width: 700px) {
+    .generationtitle_num {
+        font-size: 1.2rem;
+        margin-right: .5rem;
+    }
+
+    .generationtitle_date {
+        font-size: 1.2rem;
+        margin-right: .75rem;
+    }
+
+    .generationtitle_title {
+        font-size: 1rem;
+    }
+}

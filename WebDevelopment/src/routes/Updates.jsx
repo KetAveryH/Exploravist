@@ -1,6 +1,5 @@
-import React from 'react'
-import { Fragment, useState } from 'react'
-import { Link } from "react-router-dom";
+import React, { Fragment, useState } from 'react'
+import { Link } from "react-router-dom"
 import Navbar from '../components/Navbar'
 import GenerationTitle from '../components/GenerationTitle'
 import ImageLink from '../components/ImageLink'
@@ -66,9 +65,8 @@ const Updates = () => {
                   <p>This version now snaps a picture when the metal touch pads are pressed, and responds slightly faster than Gen 1 in ~20 seconds.
                     In addition, it sits in a new casing with a convenient universal attachment for all glasses, and has various battery safety features.</p>
                   <p>In terms of hardware, things are mostly flushed out aside from a much needed camera upgrade.</p>
-                  <p>With software, we hope to get speeds down to {'<'}5 seconds for this next generation</p>
-                  <h3>Click the picture to see a video of it working!</h3>
-                  <ImageLink image={imgGen2} link='https://drive.google.com/file/d/114dX1XSSEe9KaeqTzVFeF-toWlxS05XN/view'/>
+                  <p>With software, we hope to get speeds down to {'<'}5 seconds for this next generation.</p>
+                  <ImageLink image={imgGen2}/>
                   <div className='updates_details_end'/>
                 </div>
               }

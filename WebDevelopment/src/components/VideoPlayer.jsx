@@ -1,5 +1,4 @@
-import React from 'react'
-import { Fragment, useEffect, useRef } from 'react'
+import React, { Fragment, useEffect, useRef } from 'react'
 import Video from '../assets/device-demo.mp4'
 import '../styles/VideoPlayer.css'
 
@@ -11,7 +10,7 @@ const VideoPlayer = () => {
             const options = {
             root: null,
             rootMargin: '0px', 
-            threshold: 0.20 // trigger when 20% of the video is visible
+            threshold: 0.20
         }
 
         const callback = (entries, observer) => {

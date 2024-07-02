@@ -27,6 +27,7 @@
 
 .updates_gen {
     margin-left: 4rem;
+    margin-right: 4rem;
 }
 
 .updates_details_toggle {
@@ -78,7 +79,7 @@
 
 .updates_details h2 {
     font-weight: 600;
-    font-size: 1.2;
+    font-size: 1.2rem;
 }
 
 .updates_details ul {
@@ -108,4 +109,32 @@
 
 .updates_details_end {
     margin-bottom: 1.5rem;
+}
+
+@media only screen and (max-width: 700px) {
+    .updates_header {
+        font-size: 1.8rem;
+        margin-top: 2.2rem;
+        margin-left: 2.5rem;
+        margin-right: 2.5rem;
+    }
+
+    .updates_gen {
+        margin-left: 2.5rem;
+        margin-right: 2.5rem;
+    }
+
+    .updates_details_toggle {
+        font-size: 1.1rem;
+    }
+
+    .updates_details {
+        margin-left: .75rem;
+        font-size: 1rem;
+    }
+
+    .updates_details h2 {
+        font-weight: 500;
+        font-size: 1.1rem;
+    }
 }
