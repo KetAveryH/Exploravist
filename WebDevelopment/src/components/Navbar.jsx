@@ -30,7 +30,6 @@ const Navbar = () => {
     setMobileMenuVisible(!isMobileMenuVisible);
   }
 
-
   useEffect(() => {
     handleResize();
 
