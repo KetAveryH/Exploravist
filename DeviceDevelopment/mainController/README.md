@@ -13,7 +13,7 @@ To download make sure to download the respective repositories as ZIP files and i
 
 - Phil Pschatzmann's 
     - [Audio-Tools](https://github.com/pschatzmann/arduino-audio-tools)
-    - [Decoder-Helix](https://github.com/pschatzmann/arduino-audio-tools)
+    - [Decoder-Helix](https://github.com/pschatzmann/arduino-libhelix)
 - ArduinoJson library (Use Arduino IDE Library Search Bar)
 - [Audio.h by schreibfaul1](https://github.com/schreibfaul1/ESP32-audioI2S/tree/master)
 
