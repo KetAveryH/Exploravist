@@ -23,11 +23,11 @@
 #define I2S_BCLK 47 // Bit Clock (BCLK)
 #define I2S_DOUT 21 // Data Out (DIN)
 
-#define SD_MMC_CMD 38 // Please do not modify it.
-#define SD_MMC_CLK 39 // Please do not modify it.
-#define SD_MMC_D0 40  // Please do not modify it.
+// #define SD_MMC_CMD 38 // Please do not modify it.
+// #define SD_MMC_CLK 39 // Please do not modify it.
+// #define SD_MMC_D0 40  // Please do not modify it.
 
-Audio audio;
+// Audio audio;      ///////
 
 Esp32::Esp32()
 {
@@ -41,11 +41,6 @@ Esp32::Esp32()
     Wire.begin(2, 48); // Initialize I2C
 };
 
-// Audio initializeAudio() {
-//   Audio audio;
-//   audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
-//   audio.setVolume(systemVolume); // 0...21
-// }
 
 // int Esp32::inputHandlerDoubleTap(){
 //     //time threshold between double tap and single tap
