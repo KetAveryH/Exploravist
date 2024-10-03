@@ -3,9 +3,9 @@
 #include "WifiAccess.h"
 #include "AIInterface.h"
 #include "sd_read_write.h"
+// #include "PlayerSpiffsI2S.h"
 #include "SD_MMC.h" // new
 #include "Audio.h"  // new
-#include "PlayerSpiffsI2S.h"
 #include <driver/i2s.h>
 #include <Arduino.h>
 #include "config.h"
@@ -42,7 +42,7 @@ const String ai_prompt = "Please provide a description of this image suitable fo
 WifiAccess wifiAccess(ssid, password); // Initialize WifiAccess object named "wifi"
 AIInterface aiInterface(gpt_key, anthropic_key);
 Esp32 device;
-PlayerSpiffsI2S playerOut;
+// PlayerSpiffsI2S playerOut;
 Camera camera;
 
 int menuIndex = 0;
@@ -157,8 +157,9 @@ void setup()
     // Serial port for debugging purposes
     Serial.begin(115200);
     wifiAccess.connect();
+    Serial.println("Connected");
     camera.initializeCamera();
-
+    Serial.println("Camera Initialized");
     // SD Card Initialization
     SD_MMC.setPins(SD_MMC_CLK, SD_MMC_CMD, SD_MMC_D0);
     if (!SD_MMC.begin("/sdcard", true, true, SDMMC_FREQ_DEFAULT, 5))
@@ -172,17 +173,19 @@ void setup()
         Serial.println("No SD_MMC card attached");
         return;
     }
+    Serial.println("SD Card Initialized");
 
     // SPIFFS Initialization
-    if (!SPIFFS.begin(FORMAT_SPIFFS_IF_FAILED))
-    {
-        Serial.println("SPIFFS Mount Failed");
-        return;
-    }
+    // if (!SPIFFS.begin(FORMAT_SPIFFS_IF_FAILED))
+    // {
+    //     Serial.println("SPIFFS Mount Failed");
+    //     return;
+    // }
+    
 
     // Turn-off the 'brownout detector'
     WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0); // Might help overcome early shutoff due to power fluctuations
-
+    Serial.println("Bownout detector disabled");
     // Initialize AI Model HTTP Connection
     aiInterface.model_select = 0;
     aiInterface.beginANTHROPIC();
@@ -192,6 +195,7 @@ void setup()
 void loop()
 {
 // menus 0, 1, 2, 3, 4, 
+  Serial.println("made it to main loop");
 
     if (touchRead(T3) > 35000) { // Back Button (Menu Scroll Button)
         Serial.println(menuIndex);

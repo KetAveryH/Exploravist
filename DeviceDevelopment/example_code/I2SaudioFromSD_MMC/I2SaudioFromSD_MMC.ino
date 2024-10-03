@@ -12,11 +12,11 @@
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
 //
 
+// ESP32-audioI2S-master\src\Audio.h"
 #include "Arduino.h"
 #include "WiFiMulti.h"
-#include "AudioESP.h"
+#include "Audio.h"
 #include "SPI.h"
-#include "SD.h"
 #include "SD_MMC.h"
 #include "FS.h"
 
@@ -40,7 +40,7 @@
 
 
 
-AudioESP audio;
+Audio audio;
 
 
 void setup() {
@@ -65,7 +65,7 @@ void setup() {
     audio.setPinout(I2S_BCLK, I2S_LRC, I2S_DOUT);
     audio.setVolume(12); // 0...21
 
-   audio.connecttoFS(SD_MMC, "Battery 10 .wav");
+   audio.connecttoFS(SD_MMC, "Battery10.wav");
 }
 
 void loop()
