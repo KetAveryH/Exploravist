@@ -1,3 +1,5 @@
+#define CAMERA_MODEL_ESP32S3_EYE // ESP32-s3 WROOM | Has PSRAM
+
 #if defined(CAMERA_MODEL_WROVER_KIT)
 #define PWDN_GPIO_NUM    -1
 #define RESET_GPIO_NUM   -1

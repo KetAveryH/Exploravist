@@ -1,7 +1,7 @@
 // AIInterface.cpp
 #include "AIInterface.h"
-#include "Audio.h"
-#include "Esp32.h"
+// #include "Audio.h"
+// #include "Esp32.h"
 
 #define LED1 2
 
