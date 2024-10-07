@@ -2,6 +2,8 @@
 #define WIFI_ACCESS_H
 
 #include <WiFi.h>
+#include <WiFiMulti.h>
+
 
 class WifiAccess {
 public:
@@ -10,8 +12,11 @@ public:
     bool isConnected(); // Method to check if WiFi is connected
 
 private:
-    const char* _ssid; // Private member variable for storing the SSID
-    const char* _password; // Private member variable for storing the WiFi password
+    WiFiMulti wifiMulti;
+    const char** _ssid_list;
+    const char** _Password_list;
+    const char*  _ssid; // Private member variable for storing the SSID
+    const char*  _password; // Private member variable for storing the WiFi password
 };
 
 #endif // WIFI_ACCESS_H
